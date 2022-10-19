@@ -15,7 +15,7 @@ class BaseProductSerializer(serializers.ModelSerializer):
     def get_image(self, instance):
         images_instances = instance.images.filter(type=1)
         if(len(images_instances) > 0):
-            return ProductPhotoSerializer(images_instances[0], many=False).data
+            return ProductPhotoSerializer(images_instances[0], many=False, context={"request": self.context['request']}).data
         return None
 
     def get_services(self, instance):
@@ -39,7 +39,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def get_images(self, instance):
         images_instances = instance.images.filter(type=0)
-        return ProductPhotoSerializer(images_instances, many=True).data
+        return ProductPhotoSerializer(images_instances, many=True, context={"request": self.context['request']}).data
 
     class Meta:
         model = Product

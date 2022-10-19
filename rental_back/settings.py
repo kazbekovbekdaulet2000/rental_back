@@ -25,7 +25,7 @@ environ.Env.read_env()
 SECRET_KEY = env('SECRET_KEY')
 DEBUG = int(env('DEBUG'))
 ALLOWED_HOSTS = env('DJANGO_ALLOWED_HOSTS').split(' ')
-
+CSRF_TRUSTED_ORIGINS = ['https://app.yumerental.com']
 
 # Application definition
 
@@ -149,8 +149,10 @@ REST_FRAMEWORK = {
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
     'https://yumerental.com',
-    'https://www.yumerental.com',
+    'https://yume-rental.web.app',
 )
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 LOG_LEVEL = env('LOG_LEVEL')
 LOG_PATH = os.path.join(BASE_DIR, 'logs')
@@ -238,7 +240,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 CKEDITOR_UPLOAD_PATH = 'uploads/'

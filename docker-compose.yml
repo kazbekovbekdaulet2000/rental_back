@@ -35,6 +35,14 @@ services:
     depends_on:
       - web
       - redis
+  bot:
+    build: .
+    command: python manage.py bot
+    volumes:
+      - .:/app
+    env_file: .env
+    depends_on:
+      - web
   nginx:
     image: nginx:1.15-alpine
     restart: unless-stopped
