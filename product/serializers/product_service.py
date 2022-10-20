@@ -1,4 +1,3 @@
-import re
 from rest_framework import serializers
 from product.models.product_service import ProductService
 from product.models.service import Service
@@ -20,7 +19,10 @@ class ServiceSerializer(serializers.ModelSerializer):
 
 
 class ProductServiceSerializer(serializers.ModelSerializer):
-    service = ServiceSerializer(read_only=True)
+    service = serializers.SerializerMethodField()
+
+    def get_service(self, instance):
+        return ServiceSerializer(instance.service, many=False, context={"request": self.context['request']}).data
 
     class Meta:
         model = ProductService

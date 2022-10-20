@@ -8,13 +8,13 @@ from product.serializers.product_service import ProductServiceSerializer
 
 
 class BaseProductSerializer(serializers.ModelSerializer):
-    category = CategorySerializer(many=False) 
+    category = CategorySerializer(many=False)
     image = serializers.SerializerMethodField()
     services = serializers.SerializerMethodField(read_only=True)
 
     def get_image(self, instance):
         images_instances = instance.images.filter(type=1)
-        if(len(images_instances) > 0):
+        if (len(images_instances) > 0):
             return ProductPhotoSerializer(images_instances[0], many=False, context={"request": self.context['request']}).data
         return None
 
@@ -32,7 +32,7 @@ class ProductSerializer(serializers.ModelSerializer):
     images = serializers.SerializerMethodField()
     child_products = BaseProductSerializer(many=True)
     specs = serializers.SerializerMethodField()
-    services = ProductServiceSerializer(read_only=True)
+    services = serializers.SerializerMethodField()
 
     def get_specs(self, obj):
         return ValueSerializer(obj.eav.select_related('attribute', 'product'), many=True).data
@@ -40,6 +40,9 @@ class ProductSerializer(serializers.ModelSerializer):
     def get_images(self, instance):
         images_instances = instance.images.filter(type=0)
         return ProductPhotoSerializer(images_instances, many=True, context={"request": self.context['request']}).data
+
+    def get_services(self, instance):
+        return ProductServiceSerializer(instance.services.all(), many=True, context={"request": self.context['request']}).data
 
     class Meta:
         model = Product

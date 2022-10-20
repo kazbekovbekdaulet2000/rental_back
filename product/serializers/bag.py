@@ -41,7 +41,11 @@ class UserBagSerializer(serializers.ModelSerializer):
     services = serializers.SerializerMethodField(read_only=True)
 
     def get_services(self, obj):
-        return ServiceSerializer(Service.objects.filter(id__in=obj.products.values_list('product__services__service', flat=True)), many=True).data
+        return ServiceSerializer(
+            Service.objects.filter(id__in=obj.products.values_list('product__services__service', flat=True)), 
+            many=True,
+            context={"request": self.context['request']}
+        ).data
 
     class Meta:
         model = UserBag
