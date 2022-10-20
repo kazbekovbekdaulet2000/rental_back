@@ -23,7 +23,7 @@ class ProductPhoto(AbstractModel):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="images", null=True, blank=True)
     service = models.ForeignKey(Service, on_delete=models.CASCADE, related_name="images", null=True, blank=True)
     image = models.ImageField(verbose_name=_('Фото'), null=False, blank=True, upload_to=thumb_dir)
-    image_thumb360 = models.ImageField(verbose_name=_('Фото (480px)'), upload_to=thumb_dir, max_length=500, null=True, blank=True)
+    image_thumb360 = models.ImageField(verbose_name=_('Фото (360px)'), upload_to=thumb_dir, max_length=500, null=True, blank=True)
     image_thumb720 = models.ImageField(verbose_name=_('Фото (720px)'), upload_to=thumb_dir, max_length=500, null=True, blank=True)
     image_thumb1080 = models.ImageField(verbose_name=_('Фото (1080px)'), upload_to=thumb_dir, max_length=500, null=True, blank=True)
     type = models.PositiveIntegerField(default=0, choices=PHOTO_TYPE)
@@ -39,7 +39,7 @@ class ProductPhoto(AbstractModel):
         if (has_changed(self, 'image') and self.type == 0):
             self.image_thumb1080 = create_thumbnail(self.image, 1080)
             self.image_thumb720 = create_thumbnail(self.image, 720)
-            self.image_thumb480 = create_thumbnail(self.image, 480)
+            self.image_thumb360 = create_thumbnail(self.image, 360)
         super(ProductPhoto, self).save(*args, **kwargs)
 
     class Meta:
