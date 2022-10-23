@@ -7,9 +7,10 @@ from product.serializers.product_service import ProductServiceSerializer
 
 
 class BaseMinProductSerializer(serializers.ModelSerializer):
+    category = CategorySerializer(many=False)
     class Meta:
         model = Product
-        fields = ('id', 'name_kk', 'name_ru')
+        fields = ('id', 'name_kk', 'name_ru', 'category', 'slug')
 
 
 class BaseProductSerializer(serializers.ModelSerializer):
