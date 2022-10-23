@@ -1,10 +1,15 @@
-from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 from product.models.product import Product
 from product.serializers.category import CategorySerializer
 from product.serializers.eav import ValueSerializer
 from product.serializers.product_photo import ProductPhotoSerializer
 from product.serializers.product_service import ProductServiceSerializer
+
+
+class BaseMinProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ('id', 'name_kk', 'name_ru')
 
 
 class BaseProductSerializer(serializers.ModelSerializer):
@@ -24,15 +29,15 @@ class BaseProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ('id', 'name_kk', 'name_ru', 'category',
-                  'daily_price', 'slug', 'articule', 'image', 'amount', 'services', 'child_products')
+                  'daily_price', 'slug', 'articule', 'image', 'amount', 'services')
 
 
 class ProductSerializer(serializers.ModelSerializer):
     category = CategorySerializer(many=False)
     images = serializers.SerializerMethodField()
-    child_products = BaseProductSerializer(many=True)
     specs = serializers.SerializerMethodField()
     services = serializers.SerializerMethodField()
+    set_products = serializers.SerializerMethodField()
 
     def get_specs(self, obj):
         return ValueSerializer(obj.eav.select_related('attribute', 'product'), many=True).data
@@ -44,6 +49,12 @@ class ProductSerializer(serializers.ModelSerializer):
     def get_services(self, instance):
         return ProductServiceSerializer(instance.services.all(), many=True, context={"request": self.context['request']}).data
 
+    def get_set_products(self, instance):
+        if (instance.type != 0):
+            products = Product.objects.filter(id__in = instance.set.filter(set_product__isnull=False).values_list('set_product', flat=True))
+            return BaseMinProductSerializer(products, many=True, context={"request": self.context['request']}).data
+        return None
+
     class Meta:
         model = Product
-        exclude = ('related_products', 'parent_product')
+        exclude = ('related_products', )

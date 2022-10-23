@@ -10,12 +10,19 @@ from product.models.product_photo import ProductPhoto
 from product.models.category import Category
 from product.forms import ProductForm, CategoryForm
 from product.models.product_service import ProductService
+from product.models.product_set import ProductSet
 from product.models.service import Service
 
 
 class ProductPhotoAdmin(admin.TabularInline):
     fields = ('image', 'type')
     model = ProductPhoto
+    extra = 0
+
+class ProductSetAdmin(admin.TabularInline):
+    fields = ('set_product',)
+    fk_name = 'product'
+    model = ProductSet
     extra = 0
 
 
@@ -41,13 +48,14 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ("name_ru", "daily_price",)
     prepopulated_fields = {"slug": ("name_ru",)}
     form = ProductForm
-    inlines = (ProductPhotoAdmin, ProductSpecAdmin, ProductServiceAdmin)
+    inlines = (ProductPhotoAdmin, ProductSetAdmin, ProductSpecAdmin, ProductServiceAdmin)
 
 
 class ServiceAdmin(admin.ModelAdmin):
     list_display = ("name_ru", "daily_price")
     prepopulated_fields = {"slug": ("name_ru",)}
     inlines = (ServicePhotoAdmin, )
+
 
 class UserBagItemAdmin(admin.TabularInline):
     fields = ('product', 'count')
@@ -66,7 +74,8 @@ class UserBagItemAdmin(admin.TabularInline):
 
 
 class UserBagAdmin(admin.ModelAdmin):
-    readonly_fields = ('previous_order', 'services_price', 'products_price', 'total_price', 'services__str')
+    readonly_fields = ('previous_order', 'services_price',
+                       'products_price', 'total_price', 'services__str')
     inlines = (UserBagItemAdmin, )
 
 
@@ -91,7 +100,8 @@ admin.site.register(Category, CategoryAdmin)
 admin.site.register(ProductPhoto)
 admin.site.register(Attribute)
 admin.site.register(BotUser)
-admin.site.register(ProductService, )
+admin.site.register(ProductSet)
+admin.site.register(ProductService)
 admin.site.register(UserBag, UserBagAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(Service, ServiceAdmin)

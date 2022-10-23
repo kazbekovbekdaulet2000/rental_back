@@ -12,8 +12,6 @@ class ProductForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
       super(ProductForm, self).__init__(*args, **kwargs)
-      self.fields['parent_product'].queryset = Product.objects.filter(~Q(id=self.instance.id))
-      self.fields['set_products'].queryset = Product.objects.filter(~Q(id=self.instance.id))
       self.fields['related_products'].queryset = Product.objects.filter(~Q(id=self.instance.id))
 
 

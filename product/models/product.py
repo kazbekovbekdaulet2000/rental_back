@@ -9,7 +9,8 @@ from django.utils.translation import gettext_lazy as _
 
 PRODUCT_TYPE = (
     (0, 'товар'),
-    (1, 'сет товаров')
+    (1, 'сет товаров'),
+    (2, 'комплект')
 )
 
 class Product(AbstractModel):
@@ -22,13 +23,14 @@ class Product(AbstractModel):
     tags = ArrayField(base_field=models.CharField(max_length=255), null=True, blank=True)
     category = models.ForeignKey(Category, related_name="products", on_delete=models.CASCADE)
     slug = models.SlugField(null=True, blank=True, unique=True)
-    parent_product = models.ForeignKey('self', on_delete=models.SET_NULL, related_name="child_products", blank=True, null=True)
-    active = models.BooleanField(default=True, null=False)
-    type = models.PositiveIntegerField(default=0, choices=PRODUCT_TYPE)
-    set_products = models.ManyToManyField('self', related_name="set_products", blank=True, null=True)
-    related_products = models.ManyToManyField('self', related_name="related_products", blank=True, null=True)
+
     instruction_video = models.URLField(verbose_name=_("Cсылка на инструкцию"), null=True, blank=True)
     amount = models.PositiveIntegerField(_("Количество продукции"), default=5)
+    active = models.BooleanField(default=True, null=False)
+    type = models.PositiveIntegerField(default=0, choices=PRODUCT_TYPE)
+    
+    related_products = models.ManyToManyField('self', related_name="related_products", blank=True, null=True)
+
 
     def __str__(self):
         return self.name_ru
