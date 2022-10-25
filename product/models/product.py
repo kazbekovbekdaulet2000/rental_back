@@ -16,6 +16,7 @@ PRODUCT_TYPE = (
 class Product(AbstractModel):
     name_ru = models.CharField(max_length=255)
     name_kk = models.CharField(max_length=255)
+    order = models.PositiveIntegerField(null=True, blank=True)
     articule = models.CharField(max_length=255, null=False, blank=False, unique=True)
     description_ru = RichTextUploadingField(null=True, blank=True)
     description_kk = RichTextUploadingField(null=True, blank=True)
@@ -40,7 +41,7 @@ class Product(AbstractModel):
         return super().save(*args, **kwargs)
 
     class Meta:
-        ordering = ('created_at',)
+        ordering = ('order','created_at',)
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
         index_together = (('id', 'slug'), )
