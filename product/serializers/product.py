@@ -8,9 +8,10 @@ from product.serializers.product_service import ProductServiceSerializer
 
 class BaseMinProductSerializer(serializers.ModelSerializer):
     category = CategorySerializer(many=False)
+
     class Meta:
         model = Product
-        fields = ('id', 'name_kk', 'name_ru', 'category', 'slug')
+        fields = ('id', 'name_kk', 'name_ru', 'category', 'active', 'slug')
 
 
 class BaseProductSerializer(serializers.ModelSerializer):
@@ -29,7 +30,7 @@ class BaseProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ('id', 'name_kk', 'name_ru', 'category', 'type',
+        fields = ('id', 'name_kk', 'name_ru', 'category', 'type', 'active',
                   'daily_price', 'slug', 'articule', 'image', 'amount', 'services')
 
 
@@ -52,7 +53,8 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def get_set_products(self, instance):
         if (instance.type != 0):
-            products = Product.objects.filter(id__in = instance.set.filter(set_product__isnull=False).values_list('set_product', flat=True)).order_by('category', 'order', 'created_at')
+            products = Product.objects.filter(id__in=instance.set.filter(set_product__isnull=False).values_list(
+                'set_product', flat=True)).order_by('category', 'order', 'created_at')
             return BaseMinProductSerializer(products, many=True, context={"request": self.context['request']}).data
         return None
 
