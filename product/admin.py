@@ -19,6 +19,7 @@ class ProductPhotoAdmin(admin.TabularInline):
     model = ProductPhoto
     extra = 0
 
+
 class ProductSetAdmin(admin.TabularInline):
     fields = ('set_product',)
     fk_name = 'product'
@@ -45,10 +46,13 @@ class ProductServiceAdmin(admin.TabularInline):
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ("name_ru", "daily_price",)
+    list_display = ("name_ru", "name_kk", "daily_price",)
     prepopulated_fields = {"slug": ("name_ru",)}
+    list_filter = ("category", "type")
+    search_fields = ('name_ru', 'name_kk', 'description_ru', 'description_kk')
     form = ProductForm
-    inlines = (ProductPhotoAdmin, ProductSetAdmin, ProductSpecAdmin, ProductServiceAdmin)
+    inlines = (ProductPhotoAdmin, ProductSetAdmin,
+               ProductSpecAdmin, ProductServiceAdmin)
 
 
 class ServiceAdmin(admin.ModelAdmin):
@@ -86,7 +90,8 @@ class OrderItemAdmin(admin.TabularInline):
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'phone', 'approved', 'start_time', 'end_time')
+    list_display = ('id', 'name', 'phone', 'approved',
+                    'start_time', 'end_time')
     readonly_fields = ('bag', 'total_time', 'total_price', 'services_price')
 
 
@@ -95,13 +100,18 @@ class CategoryAdmin(admin.ModelAdmin):
     form = CategoryForm
 
 
+class HiddenAdmin(admin.ModelAdmin):
+    def get_model_perms(self, request):
+        return {}
+
+
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Category, CategoryAdmin)
-admin.site.register(ProductPhoto)
-admin.site.register(Attribute)
-admin.site.register(BotUser)
-admin.site.register(ProductSet)
-admin.site.register(ProductService)
 admin.site.register(UserBag, UserBagAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(Service, ServiceAdmin)
+admin.site.register(ProductPhoto, HiddenAdmin)
+admin.site.register(Attribute, HiddenAdmin)
+admin.site.register(ProductSet, HiddenAdmin)
+admin.site.register(ProductService, HiddenAdmin)
+admin.site.register(BotUser)
