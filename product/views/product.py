@@ -23,7 +23,7 @@ class ProductList(generics.ListAPIView):
 
 class ProductDetail(generics.RetrieveAPIView):
     lookup_field = 'slug'
-    queryset = Product.objects.all().order_by('category', 'order', 'created_at')
+    queryset = Product.objects.all()
     serializer_class = ProductSerializer
     permission_classes = (permissions.AllowAny, )
 
@@ -35,7 +35,7 @@ class ProductRelatedList(generics.ListAPIView):
     pagination_class = None
     
     def get_queryset(self):
-        return self.get_object().related_products.all().order_by('category', 'order', 'created_at')
+        return self.get_object().related_products.all()
 
     def get_object(self):
         queryset = Product.objects.filter(active=True).order_by('category', 'order', 'created_at')
