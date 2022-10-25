@@ -9,7 +9,7 @@ from django.shortcuts import get_object_or_404
 
 
 class ProductList(generics.ListAPIView):
-    queryset = Product.objects.filter().order_by('-created_at')
+    queryset = Product.objects.filter(active=True).order_by('category', 'order', 'created_at')
     serializer_class = BaseProductSerializer
     permission_classes = (permissions.AllowAny, )
     filter_backends = (DjangoFilterBackend, SearchFilter)
@@ -23,9 +23,10 @@ class ProductList(generics.ListAPIView):
 
 class ProductDetail(generics.RetrieveAPIView):
     lookup_field = 'slug'
-    queryset = Product.objects.all()
+    queryset = Product.objects.all().order_by('category', 'order', 'created_at')
     serializer_class = ProductSerializer
     permission_classes = (permissions.AllowAny, )
+
 
 class ProductRelatedList(generics.ListAPIView):
     lookup_field = 'slug'
@@ -34,10 +35,10 @@ class ProductRelatedList(generics.ListAPIView):
     pagination_class = None
     
     def get_queryset(self):
-        return self.get_object().related_products.all()
+        return self.get_object().related_products.all().order_by('category', 'order', 'created_at')
 
     def get_object(self):
-        queryset = Product.objects.filter(active=True)
+        queryset = Product.objects.filter(active=True).order_by('category', 'order', 'created_at')
         lookup_url_kwarg = self.lookup_url_kwarg or self.lookup_field
         filter_kwargs = {self.lookup_field: self.kwargs[lookup_url_kwarg]}
         obj = get_object_or_404(queryset, **filter_kwargs)

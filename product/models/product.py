@@ -41,7 +41,7 @@ class Product(AbstractModel):
         return super().save(*args, **kwargs)
 
     class Meta:
-        ordering = ('-category', 'order','created_at',)
+        ordering = ('category', 'order','created_at',)
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
         index_together = (('id', 'slug'), )

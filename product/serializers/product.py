@@ -52,7 +52,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def get_set_products(self, instance):
         if (instance.type != 0):
-            products = Product.objects.filter(id__in = instance.set.filter(set_product__isnull=False).values_list('set_product', flat=True))
+            products = Product.objects.filter(id__in = instance.set.filter(set_product__isnull=False).order_by('category', 'order', 'created_at').values_list('set_product', flat=True))
             return BaseMinProductSerializer(products, many=True, context={"request": self.context['request']}).data
         return None
 
