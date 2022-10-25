@@ -1,4 +1,3 @@
-import math
 from django.contrib import admin
 from product.models.bag.bag import UserBag
 from product.models.bag.bag_product import UserBagItem
@@ -21,7 +20,7 @@ class ProductPhotoAdmin(admin.TabularInline):
 
 
 class ProductSetAdmin(admin.TabularInline):
-    fields = ('set_product',)
+    fields = ('set_product', 'count')
     fk_name = 'product'
     model = ProductSet
     extra = 0
