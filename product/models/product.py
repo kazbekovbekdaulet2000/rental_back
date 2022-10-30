@@ -30,8 +30,7 @@ class Product(AbstractModel):
     active = models.BooleanField(default=True, null=False)
     type = models.PositiveIntegerField(default=0, choices=PRODUCT_TYPE)
     
-    related_products = models.ManyToManyField('self', related_name="related_products", blank=True, null=True)
-
+    related_products_array = ArrayField(base_field=models.PositiveIntegerField(), null=True, blank=True)
 
     def __str__(self):
         return self.name_ru

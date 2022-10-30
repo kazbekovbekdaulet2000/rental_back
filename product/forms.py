@@ -12,7 +12,6 @@ class ProductForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
       super(ProductForm, self).__init__(*args, **kwargs)
-      self.fields['related_products'].queryset = Product.objects.filter(~Q(id=self.instance.id)).order_by('category', 'order', 'created_at')
 
 
 class CategoryForm(forms.ModelForm):

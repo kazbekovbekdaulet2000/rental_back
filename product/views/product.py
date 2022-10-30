@@ -35,7 +35,7 @@ class ProductRelatedList(generics.ListAPIView):
     pagination_class = None
     
     def get_queryset(self):
-        return self.get_object().related_products.all().order_by('category', 'order', 'created_at')
+        return Product.objects.filter(id__in=self.get_object().related_products_array).order_by('category', 'order', 'created_at')
 
     def get_object(self):
         queryset = Product.objects.filter(active=True).order_by('category', 'order', 'created_at')
