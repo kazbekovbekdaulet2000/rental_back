@@ -48,7 +48,7 @@ class Order(AbstractModel):
         def get_time(time):
             return timezone.localtime(time, timezone.get_fixed_timezone(360)).strftime(format_data)
         format_data = "%d.%m.%y / %H:%M"
-        return f"""<b>Заказ #{self.id}\n\nДанные клиента:</b>\n\nИмя: <b>{self.name}</b>\nНомер: <b>{self.phone}</b>\nНовый клиент: <b>{'да' if self.first_time_order else 'нет'}</b>\nНачала аренды: <b>{get_time(self.start_time)}</b>\nКонец аренды: <b>{get_time(self.end_time)}</b>\n\n"""
+        return f"""<b>Заказ #{self.id}\n\nДанные клиента:</b>\n\nИмя: <b>{self.name}</b>\nНомер: <b><a href="tel:{self.phone}" className='phone'>{self.phone}</a></b>\nНовый клиент: <b>{'да' if self.first_time_order else 'нет'}</b>\nНачала аренды: <b>{get_time(self.start_time)}</b>\nКонец аренды: <b>{get_time(self.end_time)}</b>\n\n"""
 
     @property
     def telegram_message_footer(self):
