@@ -45,7 +45,7 @@ class ProductServiceAdmin(admin.TabularInline):
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ("name_ru", "name_kk", "daily_price", "category")
+    list_display = ("id", "name_ru", "name_kk", "daily_price", "category")
     prepopulated_fields = {"slug": ("name_ru",)}
     list_filter = ("category", "type")
     search_fields = ('name_ru', 'name_kk', 'description_ru', 'description_kk')
