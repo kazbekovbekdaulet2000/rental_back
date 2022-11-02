@@ -5,7 +5,6 @@ from telegram.ext import (
     CallbackContext
 )
 from product.models.bot import BotUser
-from rental_back.settings import TELEGRAM_TOKEN
 
 
 def command_start(update: Update, context: CallbackContext) -> None:
@@ -14,14 +13,14 @@ def command_start(update: Update, context: CallbackContext) -> None:
         update.message.reply_text(text=f"{u.name}, Вам будут приходить уведомления во время заказов на сайте")
 
 
-def run_pooling():
+def run_pooling(token):
     """ Run bot in pooling mode """
-    updater = Updater(TELEGRAM_TOKEN, use_context=True)
+    updater = Updater(token, use_context=True)
 
     dp = updater.dispatcher
     dp.add_handler(CommandHandler("start", command_start))
 
-    bot_info = Bot(TELEGRAM_TOKEN).get_me()
+    bot_info = Bot(token).get_me()
     bot_link = f"https://t.me/" + bot_info["username"]
 
     print(f"Pooling of '{bot_link}' started")

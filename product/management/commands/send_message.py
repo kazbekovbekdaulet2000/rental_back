@@ -1,5 +1,4 @@
 from rental_back.settings import TELEGRAM_TOKEN
-import asyncio
 import aiohttp
 
 
