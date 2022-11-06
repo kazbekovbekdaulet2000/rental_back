@@ -13,6 +13,11 @@ from product.models.product_set import ProductSet
 from product.models.service import Service
 
 
+@admin.action(description='approve_order')
+def approve_order(modeladmin, request, queryset):
+    queryset.update(approved=True)
+
+
 class ProductPhotoAdmin(admin.TabularInline):
     fields = ('image', 'type')
     model = ProductPhoto
@@ -89,8 +94,9 @@ class OrderItemAdmin(admin.TabularInline):
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'phone', 'approved',
-                    'start_time', 'end_time')
+    list_display = ('id', 'name', 'phone', 'approved', 'start_time', 'end_time', 'total_price')
+    actions = [approve_order, ]
+    list_filter = ("approved", "start_time", "end_time")
     readonly_fields = ('bag', 'total_time', 'total_price', 'services_price')
 
 

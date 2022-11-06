@@ -4,4 +4,4 @@ from product.models.product import Product
 class ProductCategoryFilter(filters.FilterSet):
     class Meta:
         model = Product
-        fields = ['category__slug',]
+        fields = ['category__slug']

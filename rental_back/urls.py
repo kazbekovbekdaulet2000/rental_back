@@ -1,4 +1,3 @@
-
 from django.contrib import admin
 from django.urls import path, re_path, include
 from rest_framework import permissions
@@ -23,6 +22,7 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('v1/', include('product.urls')),
+    path('v1/manage/', include('manage.urls')),
 
     # ckeditor
     re_path(r'^ckeditor/', include('ckeditor_uploader.urls')),

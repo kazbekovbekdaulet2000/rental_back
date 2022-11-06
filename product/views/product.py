@@ -13,11 +13,7 @@ class ProductList(generics.ListAPIView):
     serializer_class = BaseProductSerializer
     permission_classes = (permissions.AllowAny, )
     filter_backends = (DjangoFilterBackend, SearchFilter)
-    search_fields = (
-        'name_ru', 'name_kk', 'tags',
-        'category__name_kk', 'category__name_ru',
-        'description_kk', 'description_ru'
-    )
+    search_fields = ('name_ru', 'name_kk', 'tags')
     filterset_class = ProductCategoryFilter
 
 
