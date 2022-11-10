@@ -29,5 +29,5 @@ class ManageStatisticsDetail(generics.RetrieveAPIView):
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
-        serializer = ManageStatisticsSerializer(instance)
+        serializer = ManageStatisticsSerializer(instance, context=self.get_serializer_context())
         return Response(serializer.data)

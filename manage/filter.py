@@ -1,6 +1,5 @@
 from django_filters import rest_framework as filters
 from manage.models.stats import Statistics
-from product.models.product import Product
 
 
 class StatisticsTimeFilter(filters.FilterSet):

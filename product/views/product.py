@@ -1,11 +1,20 @@
 from rest_framework import generics
 from rest_framework import permissions
+from product.models.category import Category
 from product.models.product import Product
+from product.serializers.category import AllCategoryProductSerializer
 from product.serializers.product import BaseProductSerializer, ProductSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from product.utils import ProductCategoryFilter
 from rest_framework.filters import SearchFilter
 from django.shortcuts import get_object_or_404
+
+
+class ProductCategoryList(generics.ListAPIView):
+    queryset = Category.objects.all().order_by('created_at')
+    pagination_class = None
+    serializer_class = AllCategoryProductSerializer
+    permission_classes = (permissions.AllowAny, )
 
 
 class ProductList(generics.ListAPIView):

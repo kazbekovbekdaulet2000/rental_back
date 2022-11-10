@@ -1,16 +1,15 @@
 from django.db import models
-from product.models.bag.bag import UserBag
 from product.models.bag.order import Order
-from product.models.product import Product
-from product.models.service import Service
 from datetime import datetime, timedelta
 
-def now_minus_30(): return datetime.now() - timedelta(days = 14)
+def now_minus_30(): return datetime.now() - timedelta(days=28)
 
 class Statistics(models.Model):
     created_at = models.DateTimeField(null=True)
     start_at = models.DateTimeField(null=True)
     end_at = models.DateTimeField(null=True)
+
+# add category filter
 
     orders = None
     approved_orders = None
@@ -47,15 +46,13 @@ class Statistics(models.Model):
     @property
     def services_value(self):
         services_sum = 0
-        for order in self.approved_orders:
-            services_sum += order.services_price
+        for order in self.approved_orders: services_sum += order.services_price
         return services_sum
 
     @property
-    def days_count(self):
+    def total_days_count(self):
         days = 0
-        for order in self.orders:
-            days += order.total_days
+        for order in self.orders: days += order.total_days
         return days
         
     @property
@@ -66,4 +63,4 @@ class Statistics(models.Model):
         return days
 
     class Meta:
-        db_table = None
+        managed = False
