@@ -1,5 +1,7 @@
 import math
 from django.db import models
+from manage.models.rentinhand_inventory import RentInHandInventory
+from manage.models.rentinhand_order import RentInHandOrder
 from manage.models.stats_product_count import ProductCountStatistics
 from product.models.bag.order import Order
 from product.models.product import Product
@@ -14,6 +16,7 @@ class ProductStatistics(models.Model):
     end_at = models.DateTimeField(null=True)
 
     products = None
+    inventory = None
     products_days_count_dict = {}
     products_order_count_dict = {}
     product_count = list()
@@ -25,8 +28,7 @@ class ProductStatistics(models.Model):
         filter = {"approved": True}
         if (self.start_at):
             filter.update({"start_time__gte": self.start_at})
-        else:
-            filter.update({"start_time__gte": now_minus_30()})
+        else:filter.update({"start_time__gte": now_minus_30()})
         if (self.end_at):
             filter.update({"end_time__lte": self.end_at})
 
@@ -37,6 +39,8 @@ class ProductStatistics(models.Model):
             else:
                 objs.update({str(productId): str(days * self.get_days(start_time, end_time))})
                 days_dict.update({str(productId): str(self.get_days(start_time, end_time))})
+        
+        self.initInventory()
 
         self.products_days_count_dict = objs
         self.products_order_count_dict = days_dict
@@ -49,6 +53,33 @@ class ProductStatistics(models.Model):
                 total_days_count=int(self.products_days_count_dict.get(str(product.id))),
                 total_orders_count=int(self.products_order_count_dict.get(str(product.id)))
             ))
+        
+
+    def initInventory(self):
+        filter = {}
+        if (self.start_at):filter.update({"start_time__gte": self.start_at})
+        else:filter.update({"start_time__gte": now_minus_30()})
+        if (self.end_at):filter.update({"end_time__lte": self.end_at})
+
+        ids = []
+        inventory_days = {}
+        orders = RentInHandOrder.objects.filter(**filter)
+        for inventories in orders.values_list('inventories'):
+            for i in inventories[0]: 
+                ids.append(i)
+
+        inventories = RentInHandInventory.objects.filter(id__in=ids)
+
+        for order in orders:
+            days = self.get_days(order.start_time, order.end_time)
+            for i in order.inventories:
+                inventory = inventories.get(id=i)
+                if i in inventory_days.keys():
+                    inventory_days.update({inventory.title: inventory_days.get(inventory.title) + days})
+                else:
+                    inventory_days.update({inventory.title: days})
+    
+        self.inventory = inventory_days
 
     def get_days(self, start_time, end_time):
         days = math.ceil((end_time - start_time).total_seconds() / (24 * 60 * 60))

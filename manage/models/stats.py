@@ -1,4 +1,6 @@
+import math
 from django.db import models
+from manage.models.rentinhand_order import RentInHandOrder
 from product.models.bag.order import Order
 from datetime import datetime, timedelta
 
@@ -12,12 +14,12 @@ class Statistics(models.Model):
 # add category filter
 
     orders = None
-    approved_orders = None
+    rnh_orders = None
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
+        self.rnh_orders = self.init_rnh_orders()
         self.orders = self.init_orders()
-        self.approved_orders = self.orders.filter(approved=True)
 
     def init_orders(self):
         filter = { }
@@ -28,13 +30,17 @@ class Statistics(models.Model):
 
         return Order.objects.filter(**filter)
     
+    def init_rnh_orders(self):
+        filter = { }
+        if(self.start_at): filter.update({"start_time__gte" : self.start_at})
+        else: filter.update({"start_time__gte" : now_minus_30()})
+        if(self.end_at): filter.update({"end_time__lte" : self.end_at})
+
+        return RentInHandOrder.objects.filter(**filter)
+
     @property
     def orders_count(self):
         return self.orders.count
-    
-    @property
-    def approved_orders_count(self):
-        return self.approved_orders.count
     
     @property
     def products_value(self):
@@ -56,10 +62,21 @@ class Statistics(models.Model):
         return days
         
     @property
-    def approved_days_count(self):
+    def rnh_days_count(self):
         days = 0
-        for order in self.approved_orders:
-            days += order.total_days
+        for order in self.rnh_orders:
+            time = order.end_time - order.start_time
+            days += self.total_days(time)
+        return days
+
+    @property
+    def rnh_orders_count(self):
+        return self.rnh_orders.count
+
+    def total_days(self, time):
+        days = math.ceil(time.total_seconds() / (24 * 60 * 60))
+        if (days == 0): 
+            days = 1
         return days
 
     class Meta:
