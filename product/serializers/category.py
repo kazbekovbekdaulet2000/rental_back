@@ -47,7 +47,7 @@ class AllCategoryProductSerializer(serializers.ModelSerializer):
     products = serializers.SerializerMethodField()
 
     def get_products(self, obj):
-        return CategoryProductSerializer(obj.products, context={"request": self.context['request']}, many=True).data
+        return CategoryProductSerializer(obj.products.filter(active=True), context={"request": self.context['request']}, many=True).data
 
     class Meta:
         model = Category
