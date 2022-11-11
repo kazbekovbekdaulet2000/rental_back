@@ -25,7 +25,7 @@ class ProductStatistics(models.Model):
         super().__init__(*args, **kwargs)
         objs = {}
         days_dict = {}
-        filter = {"approved": True}
+        filter = {}
         if (self.start_at):
             filter.update({"start_time__gte": self.start_at})
         else:filter.update({"start_time__gte": now_minus_30()})

@@ -151,6 +151,7 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
     'https://yumerental.com',
     'https://yume-rental.web.app',
+    'https://yume-rental-metrics.web.app'
 )
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
