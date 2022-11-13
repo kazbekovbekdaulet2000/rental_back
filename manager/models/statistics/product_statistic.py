@@ -64,7 +64,7 @@ class ManagerProductStat(models.Model):
             if(productRnhIds):
                 inventories.extend(productRnhIds)
 
-        self.products = Product.objects.filter(id__in=productIds)
+        self.products = Product.objects.filter(active=True)
         self.init_inventory_count()
 
     def init_inventory_count(self):
@@ -75,11 +75,8 @@ class ManagerProductStat(models.Model):
             for item in list:
                 rnh_inv.append((item, days))
                 
-        print(')000000(')
         for i in self.inventories.values_list('id', flat=True):
-            print(i)
             self.orders_approved.update({str(i):0})
-        print(')000000(')
 
         for inventory, days in rnh_inv:
             if(str(inventory) in self.orders_approved.keys()):
