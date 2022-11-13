@@ -60,4 +60,4 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        exclude = ('related_products_array', )
+        exclude = ('related_products_array', 'rnh_ids', )

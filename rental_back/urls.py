@@ -22,7 +22,8 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('v1/', include('product.urls')),
-    path('v1/manage/', include('manage.urls')),
+    path('v1/auth/', include('user.urls')),
+    path('v1/manager/', include('manager.urls')),
 
     # ckeditor
     re_path(r'^ckeditor/', include('ckeditor_uploader.urls')),

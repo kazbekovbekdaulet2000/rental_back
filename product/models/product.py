@@ -25,6 +25,8 @@ class Product(AbstractModel):
     category = models.ForeignKey(Category, related_name="products", on_delete=models.CASCADE)
     slug = models.SlugField(null=True, blank=True, unique=True)
 
+    rnh_ids = ArrayField(base_field=models.PositiveIntegerField(), null=True, blank=True)
+
     instruction_video = models.URLField(verbose_name=_("Cсылка на инструкцию"), null=True, blank=True)
     amount = models.PositiveIntegerField(_("Количество продукции"), default=5)
     active = models.BooleanField(default=True, null=False)
