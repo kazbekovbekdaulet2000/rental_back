@@ -8,7 +8,7 @@ from django.utils.translation import gettext_lazy as _
 from common.image_progressive import create_thumbnail, has_changed
 
 def image_dir(instance, filename):
-    return f"article/{instance.slug}/{filename}"
+    return f"article/{filename}"
 
 class Article(AbstractModel):
     title_ru = models.CharField(max_length=5196)
@@ -19,8 +19,8 @@ class Article(AbstractModel):
     body_kk = RichTextUploadingField(null=True, blank=True)
     
     tags = ArrayField(base_field=models.CharField(max_length=255), null=True, blank=True)
-    slug = models.SlugField(null=True, blank=True, unique=True)
-    image = models.ImageField(verbose_name=_('Фото'), null=False, blank=True, upload_to=image_dir)
+    slug = models.SlugField(max_length=5196, null=True, blank=True, unique=True)
+    image = models.ImageField(verbose_name=_('Фото'), null=False, blank=False, upload_to=image_dir)
 
     active = models.BooleanField(default=True, null=False)
     products = ArrayField(base_field=models.PositiveIntegerField(), null=True, blank=True)
