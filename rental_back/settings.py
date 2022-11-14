@@ -38,8 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'user',
+    'article',
     'product',
-    'manage',
     'manager',
 
     # cors

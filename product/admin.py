@@ -5,6 +5,7 @@ from product.models.bag.order import Order
 from product.models.bot import BotUser
 from product.models.eav import Attribute, Value
 from product.models.product import Product
+from product.models.product_announcement import ProductAnnouncement
 from product.models.product_photo import ProductPhoto
 from product.models.category import Category
 from product.forms import ProductForm, CategoryForm
@@ -120,3 +121,4 @@ admin.site.register(Attribute, HiddenAdmin)
 admin.site.register(ProductSet, HiddenAdmin)
 admin.site.register(ProductService, HiddenAdmin)
 admin.site.register(BotUser)
+admin.site.register(ProductAnnouncement)
