@@ -12,6 +12,8 @@ class ArticleSerializer(serializers.ModelSerializer):
 
 
 class ArticleDetailSerializer(serializers.ModelSerializer):
+    products = BaseProductSerializer(many=True)
+    
     def to_representation(self, instance):
         instance.products = Product.objects.filter(id__in=instance.products, active=True)
         self.fields['products'] = BaseProductSerializer(many=True, read_only=True, context={"request": self.context['request']})
