@@ -20,7 +20,8 @@ class Article(AbstractModel):
     
     tags = ArrayField(base_field=models.CharField(max_length=255), null=True, blank=True)
     slug = models.SlugField(max_length=5196, null=True, blank=True, unique=True)
-    image = models.ImageField(verbose_name=_('Фото'), null=False, blank=False, upload_to=image_dir)
+    image_ru = models.ImageField(verbose_name=_('Фото(рус)'), null=False, blank=False, upload_to=image_dir)
+    image_kk = models.ImageField(verbose_name=_('Фото(каз)'), null=True, blank=False, upload_to=image_dir)
 
     active = models.BooleanField(default=True, null=False)
     products = ArrayField(base_field=models.PositiveIntegerField(), null=True, blank=True)
@@ -30,8 +31,10 @@ class Article(AbstractModel):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title_ru)
-        if (has_changed(self, 'image')):
-            self.image = create_thumbnail(self.image, 1080)
+        if (has_changed(self, 'image_ru')):
+            self.image_ru = create_thumbnail(self.image_ru, 1080)
+        if (has_changed(self, 'image_kk')):
+            self.image_kk = create_thumbnail(self.image_kk, 1080)
         return super().save(*args, **kwargs)
 
     class Meta:
