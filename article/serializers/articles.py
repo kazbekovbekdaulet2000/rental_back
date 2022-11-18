@@ -8,7 +8,7 @@ from product.serializers.product import BaseProductSerializer
 class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
-        fields = ('id', 'title_ru', 'title_kk', 'body_ru', 'body_kk', 'tags', 'slug', 'image_ru', 'image_kk')
+        fields = ('id', 'title_ru', 'title_kk', 'body_ru', 'body_kk', 'tags', 'slug', 'image_ru', 'image_kk', 'outer_url')
 
 
 class ArticleDetailSerializer(serializers.ModelSerializer):

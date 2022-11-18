@@ -25,6 +25,7 @@ class Article(AbstractModel):
 
     active = models.BooleanField(default=True, null=False)
     products = ArrayField(base_field=models.PositiveIntegerField(), null=True, blank=True)
+    outer_url = models.URLField(null=True, blank=True)
 
     def __str__(self):
         return self.title_ru
