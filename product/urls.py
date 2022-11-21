@@ -18,9 +18,9 @@ urlpatterns = [
   path("products/<slug:slug>/related/", ProductRelatedList.as_view()),
 
   # bag
-  path("bag/", CreateUserBag.as_view()), # post, get
-  path("bag/<uuid:uuid>/", UserBagList.as_view()), # post, get
-  path("bag/<uuid:uuid>/products/", UserBagProductsList.as_view()), #add product 
-  path("bag/<uuid:uuid>/products/<int:id>/", UserBagDetail.as_view()), #remove product
+  path("bag/", CreateUserBag.as_view()),
+  path("bag/<uuid:uuid>/", UserBagList.as_view()), 
+  path("bag/<uuid:uuid>/products/", UserBagProductsList.as_view()),
+  path("bag/<uuid:uuid>/products/<int:id>/", UserBagDetail.as_view()),
   path("bag/<uuid:uuid>/order/", CreateOrderView.as_view()),
 ]
