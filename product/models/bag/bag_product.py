@@ -13,7 +13,9 @@ class UserBagItem(AbstractModel):
         return f"{self.order.id}: {self.product.__str__()}"
 
     def telegram_detail(self, order, days):
-        return f"""<b>{order}. {self.product.name_ru}</b> (артикул: {self.product.articule}) \nКол-во: <b>{self.count}</b>\nСтоимость: {self.product.daily_price} KZT x {self.count} шт x {days} суток = <b>{self.product.daily_price * self.count * days} KZT</b>\n\n"""
+        if(self.product.discount):
+            return f"""<b>{order}. {self.product.name_ru}</b> (артикул: {self.product.articule}) \n<b>Скидка: {self.product.discount}%</b>\nКол-во: <b>{self.count}</b>\nСтоимость: {self.product.price}KZT ({self.product.daily_price}KZT) x {self.count} шт x {days} суток = <b>{self.product.price * self.count * days} KZT</b>\n\n"""
+        return f"""<b>{order}. {self.product.name_ru}</b> (артикул: {self.product.articule}) \nКол-во: <b>{self.count}</b>\nСтоимость: {self.product.price} KZT x {self.count} шт x {days} суток = <b>{self.product.price * self.count * days} KZT</b>\n\n"""
 
     class Meta:
         ordering=['created_at']
