@@ -39,7 +39,7 @@ class Article(AbstractModel):
         return super().save(*args, **kwargs)
 
     class Meta:
-        ordering = ('created_at',)
+        ordering = ('order', 'created_at')
         verbose_name = 'Обявление'
         verbose_name_plural = 'Обявления'
         index_together = (('id', 'slug'), )

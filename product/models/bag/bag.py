@@ -16,6 +16,8 @@ class UserBag(AbstractModel):
     
     discount = None
     
+    timezone = None
+
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.services = Service.objects.filter(id__in=self.products.values_list('product__services__service', flat=True))
@@ -33,7 +35,7 @@ class UserBag(AbstractModel):
             product = item.product
             count = item.count
             _discount = product.discounts.filter(discount__start_date__lte=timezone.now(), discount__end_date__gte=timezone.now()).last()
-            if(_discount and _discount.discount.start_date <= self.created_at and _discount.discount.end_date >= self.created_at):
+            if(_discount and _discount.discount.start_date <= self.updated_at and _discount.discount.end_date >= self.updated_at):
                 list.append([product.daily_price * _discount.discount_multiplier, count])
             else:
                 list.append([product.daily_price, count])

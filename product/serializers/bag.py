@@ -49,8 +49,7 @@ class UserBagSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserBag
-        fields = ('id', 'products', 'total_price', 'services',
-                  'services_price', 'products_price')
+        fields = ('id', 'products', 'total_price', 'services', 'services_price', 'products_price')
 
 
 class UserBagCreateSerializer(serializers.ModelSerializer):

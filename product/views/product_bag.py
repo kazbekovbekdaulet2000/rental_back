@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework import permissions
 from product.models.bag.bag import UserBag
@@ -17,6 +18,18 @@ class UserBagList(generics.RetrieveAPIView):
     permission_classes = (permissions.AllowAny, )
     queryset = UserBag.objects.all()
     serializer_class = UserBagSerializer
+
+    def get_object(self):
+        queryset = self.filter_queryset(self.get_queryset())
+        lookup_url_kwarg = self.lookup_url_kwarg or self.lookup_field
+        filter_kwargs = {self.lookup_field: self.kwargs[lookup_url_kwarg]}
+        obj = get_object_or_404(queryset, **filter_kwargs)
+        self.check_object_permissions(self.request, obj)
+
+        obj.save()
+        obj = get_object_or_404(queryset, **filter_kwargs)
+
+        return obj
 
 
 class UserBagProductsList(generics.ListCreateAPIView):
