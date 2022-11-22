@@ -11,6 +11,8 @@ from product.models.category import Category
 from product.forms import ProductForm, CategoryForm
 from product.models.product_service import ProductService
 from product.models.product_set import ProductSet
+from product.models.product_discount import ProductDiscount
+from product.models.product_item_discount import ProductItemDiscount
 from product.models.service import Service
 
 
@@ -51,19 +53,34 @@ class ProductServiceAdmin(admin.TabularInline):
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ("id", "name_ru", "name_kk", "daily_price", "category", "rnh_id")
+    list_display = ("id", "name_ru", "name_kk", "daily_price", "category", "articule")
     prepopulated_fields = {"slug": ("name_ru",)}
     list_filter = ("category", "type")
     search_fields = ('name_ru', 'name_kk', 'description_ru', 'description_kk')
     form = ProductForm
-    inlines = (ProductPhotoAdmin, ProductSetAdmin,
-               ProductSpecAdmin, ProductServiceAdmin)
+    inlines = (ProductPhotoAdmin, ProductSetAdmin, ProductSpecAdmin, ProductServiceAdmin)
+
+
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ("name_ru", "name_kk")
+    form = CategoryForm
 
 
 class ServiceAdmin(admin.ModelAdmin):
     list_display = ("name_ru", "daily_price")
     prepopulated_fields = {"slug": ("name_ru",)}
     inlines = (ServicePhotoAdmin, )
+
+
+class ProductItemDiscountAdmin(admin.TabularInline):
+    fields = ('discount_percent', 'products')
+    model = ProductItemDiscount
+    extra = 1
+
+
+class ProductDiscountAdmin(admin.ModelAdmin):
+    list_display = ("name", "start_date", "end_date")
+    inlines = (ProductItemDiscountAdmin, )
 
 
 class UserBagItemAdmin(admin.TabularInline):
@@ -88,12 +105,6 @@ class UserBagAdmin(admin.ModelAdmin):
     inlines = (UserBagItemAdmin, )
 
 
-class OrderItemAdmin(admin.TabularInline):
-    fields = ('product', 'count')
-    model = UserBagItem
-    extra = 0
-
-
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'phone', 'approved', 'start_time', 'end_time', 'total_price')
     actions = [approve_order, ]
@@ -101,24 +112,29 @@ class OrderAdmin(admin.ModelAdmin):
     readonly_fields = ('bag', 'total_time', 'total_price', 'services_price')
 
 
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ("name_ru", "name_kk")
-    form = CategoryForm
-
-
 class HiddenAdmin(admin.ModelAdmin):
     def get_model_perms(self, request):
         return {}
 
 
+# product
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Category, CategoryAdmin)
+admin.site.register(Service, ServiceAdmin)
+admin.site.register(ProductDiscount, ProductDiscountAdmin)
+
+# user bag && orders
 admin.site.register(UserBag, UserBagAdmin)
 admin.site.register(Order, OrderAdmin)
-admin.site.register(Service, ServiceAdmin)
+
+# New Products
+admin.site.register(ProductAnnouncement)
+
+# hidden Models
 admin.site.register(ProductPhoto, HiddenAdmin)
 admin.site.register(Attribute, HiddenAdmin)
 admin.site.register(ProductSet, HiddenAdmin)
 admin.site.register(ProductService, HiddenAdmin)
+
+# Bot Users
 admin.site.register(BotUser)
-admin.site.register(ProductAnnouncement)

@@ -24,7 +24,7 @@ class ManagerRentInHandSerializer(serializers.ModelSerializer):
                     obj, _ = ManagerRentInHandInventory.objects.get_or_create(title=title, defaults={
                         'rnh_id': inventory['inventory']['rent_number'],
                         'amount_rent_sum': str(inventory['inventory']['amount_rent_sum']),
-                        'price': inventory['sum'],
+                        'price': inventory['sum']
                     })
                     inventories.append(obj.id)
 

@@ -4,7 +4,6 @@ from common.default_time import now_minus_28
 from manager.models.rentinhand_inventory import ManagerRentInHandInventory
 from manager.models.rentinhand_order import ManagerRentInHandOrder
 from product.models.bag.order import Order
-from product.models.category import Category
 from product.models.product import Product
 
 
@@ -53,7 +52,7 @@ class ManagerProductStat(models.Model):
 
         for productId, productRnhId, count, start_time, end_time in (self.orders.values_list(
             'bag__products__product',
-            'bag__products__product__rnh_id',
+            'bag__products__product__articule',
             'bag__products__count',
             'start_time',
             'end_time'

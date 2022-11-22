@@ -31,7 +31,7 @@ class BaseProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ('id', 'name_kk', 'name_ru', 'category', 'type', 'active',
-                  'daily_price', 'slug', 'articule', 'image', 'amount', 'services')
+                  'daily_price', 'slug', 'articule', 'image', 'amount', 'services', 'price', 'discount')
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -60,4 +60,6 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        exclude = ('related_products_array', 'rnh_id', )
+        fields = ('id', 'slug', 'category', 'images', 'specs', 'services', 'set_products', 'discount', 'name_ru', 'name_kk',
+                  'articule', 'description_ru', 'description_kk', 'price', 'daily_price', 'tags', 'instruction_video', 'amount',
+                  'type')

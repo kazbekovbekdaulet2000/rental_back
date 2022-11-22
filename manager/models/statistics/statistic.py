@@ -23,7 +23,7 @@ class ManagerStat(models.Model):
             rnh_filter.update({"end_time__gte": now_minus_28()})
 
         if (self.end_at):
-            filter.update({"end_time__lte": self.end_at})
+            filter.update({"created_at__lte": self.end_at})
             rnh_filter.update({"end_time__lte": self.end_at})
 
         self.orders = Order.objects.filter(**filter)
