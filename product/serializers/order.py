@@ -10,11 +10,12 @@ class OrderCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = ('id', 'name', 'phone', 'first_time_order',
-                  'start_time', 'end_time', 'comment', 'total_price', 'bag')
+                  'start_time', 'end_time', 'comment', 'address', 'total_price', 'bag')
         read_only_fields = ('total_price', 'bag')
 
     def create(self, validated_data):
-        validated_data['bag'] = get_object_or_404(UserBag, id=self.context['view'].kwargs['uuid'])
+        validated_data['bag'] = get_object_or_404(
+            UserBag, id=self.context['view'].kwargs['uuid'])
         res = super().create(validated_data)
         products = res.bag.products.all()
         services = res.bag.services

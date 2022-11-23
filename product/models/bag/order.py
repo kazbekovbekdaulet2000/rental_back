@@ -16,6 +16,7 @@ class Order(AbstractModel):
     bag = models.ForeignKey(UserBag, on_delete=models.SET_NULL, null=True, blank=True)
     comment = models.TextField(max_length=500, null=True, blank=True)
     approved = models.BooleanField(verbose_name=_("Принят"), default=False)
+    address = models.CharField(verbose_name=_('Адрес доставки'), max_length=255, null=True)
 
     def __str__(self):
         return f"{self.name}, {self.phone} ({self.created_at})"
@@ -48,7 +49,7 @@ class Order(AbstractModel):
         def get_time(time):
             return timezone.localtime(time, timezone.get_fixed_timezone(360)).strftime(format_data)
         format_data = "%d.%m.%y / %H:%M"
-        return f"""<b>Заказ #{self.id}\n\nДанные клиента:</b>\n\nИмя: <b>{self.name}</b>\nНомер телефона: <a href="tel:{self.phone}" className='phone'><b>{self.phone_prettify}</b></a>\nНовый клиент: <b>{'да' if self.first_time_order else 'нет'}</b>\nНачала аренды: <b>{get_time(self.start_time)}</b>\nКонец аренды: <b>{get_time(self.end_time)}</b>\n\n"""
+        return f"""<b>Заказ #{self.id}\n\nДанные клиента:</b>\n\nИмя: <b>{self.name}</b>\nНомер телефона: <a href="tel:{self.phone}" className='phone'><b>{self.phone_prettify}</b></a>\nДоставка: <b>{'да (2500 KZT)' if self.bag.delivery else 'нет'}</b>\nАдрес доставки: <b>{self.address if self.bag.delivery else 'нет'}</b>\nНовый клиент: <b>{'да' if self.first_time_order else 'нет'}</b>\nНачала аренды: <b>{get_time(self.start_time)}</b>\nКонец аренды: <b>{get_time(self.end_time)}</b>\n\n"""
 
     @property
     def phone_prettify(self):
