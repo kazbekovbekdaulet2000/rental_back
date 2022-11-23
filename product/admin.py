@@ -100,8 +100,7 @@ class UserBagItemAdmin(admin.TabularInline):
 
 
 class UserBagAdmin(admin.ModelAdmin):
-    readonly_fields = ('previous_order', 'services_price',
-                       'products_price', 'total_price', 'services__str')
+    readonly_fields = ('previous_order', 'services_price','products_price', 'total_price', 'delivery_price', 'services__str')
     inlines = (UserBagItemAdmin, )
 
 

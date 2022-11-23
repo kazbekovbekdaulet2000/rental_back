@@ -13,7 +13,7 @@ class GrantForm(AbstractModel):
     instagram_url = models.URLField()
     portfolio_url = models.URLField()
     description = models.TextField(max_length=5192)
-    file = models.FileField(upload_to=file_dir)
+    file = models.FileField(upload_to=file_dir, null=True)
     date = models.DateField()
     comment = models.TextField(max_length=5192)
     approved = models.BooleanField(default=False)

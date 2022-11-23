@@ -12,7 +12,7 @@ class CreateUserBag(generics.CreateAPIView):
     serializer_class = UserBagCreateSerializer
 
 
-class UserBagList(generics.RetrieveAPIView):
+class UserBagList(generics.RetrieveUpdateAPIView):
     lookup_field = 'id'
     lookup_url_kwarg = 'uuid'
     permission_classes = (permissions.AllowAny, )
@@ -31,6 +31,13 @@ class UserBagList(generics.RetrieveAPIView):
 
         return obj
 
+    def get_serializer_class(self):
+        if(self.request.method=='PATCH'):
+            return UserBagCreateSerializer
+        return super().get_serializer_class()
+
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
 
 class UserBagProductsList(generics.ListCreateAPIView):
     permission_classes = (permissions.AllowAny, )

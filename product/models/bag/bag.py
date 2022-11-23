@@ -7,15 +7,15 @@ from django.utils import timezone
 class UserBag(AbstractModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     previous_order = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
-
+    delivery = models.BooleanField(default=False, null=False)
+     
     services = None
     services_price = None
     services__str = None
     products_price = None
     total_price = None
-    
     discount = None
-    
+    delivery_price = 0
     timezone = None
 
     def __init__(self, *args, **kwargs) -> None:
@@ -23,10 +23,14 @@ class UserBag(AbstractModel):
         self.services = Service.objects.filter(id__in=self.products.values_list('product__services__service', flat=True))
         self.services_price = sum(self.services.values_list('daily_price', flat=True))
         self.services__str = ", ".join(self.services.values_list('name_ru', flat=True))
-    
         self.products_price = self.init_products_price()
-        
-        self.total_price = self.services_price + self.products_price
+
+        if(self.delivery and self.products.count() > 0):
+            self.delivery_price = 2500 
+        else:
+            self.delivery_price = 0 
+            
+        self.total_price = self.services_price + self.products_price + self.delivery_price
     
     def init_products_price(self):
         list = []
@@ -44,7 +48,7 @@ class UserBag(AbstractModel):
 
     def __str__(self):
         return f"{self.id} ({', '.join(list(self.products.all().values_list('product__name_ru', flat=True)))})"
-    
+
     class Meta:
         verbose_name = 'Корзина пользователя'
         verbose_name_plural = 'Корзина пользователей'
