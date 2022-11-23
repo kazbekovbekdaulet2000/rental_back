@@ -15,11 +15,11 @@ class GrantForm(AbstractModel):
     description = models.TextField(max_length=5192)
     file = models.FileField(upload_to=file_dir, null=True)
     date = models.DateField()
-    comment = models.TextField(max_length=5192)
+    comment = models.TextField(max_length=5192, null=True)
     approved = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.name} - {self.phone}"
+        return f"{self.full_name} - {self.phone}"
 
     class Meta:
         ordering = ('-created_at', )
