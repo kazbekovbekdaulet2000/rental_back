@@ -30,7 +30,7 @@ class UserBag(AbstractModel):
         else:
             self.delivery_price = 0 
             
-        self.total_price = self.services_price + self.products_price + self.delivery_price
+        self.total_price = self.services_price + self.products_price
     
     def init_products_price(self):
         list = []

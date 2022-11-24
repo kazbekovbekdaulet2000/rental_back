@@ -34,7 +34,7 @@ class Order(AbstractModel):
 
     @property
     def total_price(self):
-        return self.bag.total_price * self.total_days
+        return self.bag.total_price * self.total_days + self.bag.delivery_price
 
     @property
     def services_price(self):
