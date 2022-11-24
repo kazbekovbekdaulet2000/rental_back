@@ -49,7 +49,15 @@ class Order(AbstractModel):
         def get_time(time):
             return timezone.localtime(time, timezone.get_fixed_timezone(360)).strftime(format_data)
         format_data = "%d.%m.%y / %H:%M"
-        return f"""<b>Заказ #{self.id}\n\nДанные клиента:</b>\n\nИмя: <b>{self.name}</b>\nНомер телефона: <a href="tel:{self.phone}" className='phone'><b>{self.phone_prettify}</b></a>\nДоставка: <b>{'да (2500 KZT)' if self.bag.delivery else 'нет'}</b>\nАдрес доставки: <b>{self.address if self.bag.delivery else 'нет'}</b>\nНовый клиент: <b>{'да' if self.first_time_order else 'нет'}</b>\nНачала аренды: <b>{get_time(self.start_time)}</b>\nКонец аренды: <b>{get_time(self.end_time)}</b>\n\n"""
+        order = f"""<b>Заказ #{self.id}\n\n"""
+        client = f"""Данные клиента:</b>\n\nИмя: <b>{self.name}</b>\n"""
+        phone = f"""Номер телефона: <a href="tel:{self.phone}" className='phone'><b>{self.phone_prettify}</b></a>\n"""
+        delivery = f"""Доставка: <b>{'да (2500 KZT)' if self.bag.delivery else 'нет'}</b>\n"""
+        address = f"""Адрес доставки: <b>{self.address}</b>\n""" if self.bag.delivery else ""
+        new_client = f"""Новый клиент: <b>{'да' if self.first_time_order else 'нет'}</b>\n"""
+        start = f"""Начала аренды: <b>{get_time(self.start_time)}</b>\n"""
+        end = f"""Конец аренды: <b>{get_time(self.end_time)}</b>\n\n"""
+        return order + client + phone + delivery + address + new_client + start + end
 
     @property
     def phone_prettify(self):
@@ -57,7 +65,9 @@ class Order(AbstractModel):
 
     @property
     def telegram_message_footer(self):
-        return f"""\n\nСрок аренды: {self.total_days} суток\n<em>Сумма оплаты: {self.total_price}</em>"""
+        duriation = f"""\n\nСрок аренды: {self.total_days} суток\n"""
+        sum = f"""<em>Сумма оплаты: {self.total_price}</em>"""
+        return duriation + sum
 
     class Meta:
         ordering = ['-created_at']

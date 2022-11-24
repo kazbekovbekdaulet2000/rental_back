@@ -1,3 +1,4 @@
+import math
 from django.db import models
 from common.custom_model import AbstractModel
 from django.contrib.postgres.fields import ArrayField
@@ -43,7 +44,7 @@ class Product(AbstractModel):
         _discount = self.discounts.filter(discount__start_date__lte=timezone.now(), discount__end_date__gte=timezone.now()).last()
         if(_discount):
             self.discount = _discount.discount_percent
-            self.price = int(self.daily_price * _discount.discount_multiplier)
+            self.price = math.ceil(self.daily_price * _discount.discount_multiplier)
         else:
             self.price = self.daily_price
 
