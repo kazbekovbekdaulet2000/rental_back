@@ -25,7 +25,7 @@ environ.Env.read_env()
 SECRET_KEY = env('SECRET_KEY')
 DEBUG = int(env('DEBUG'))
 ALLOWED_HOSTS = env('DJANGO_ALLOWED_HOSTS').split(' ')
-CSRF_TRUSTED_ORIGINS = ['https://app.yumerental.com']
+CSRF_TRUSTED_ORIGINS = ['https://app.dev.yumerental.com']
 
 # Application definition
 

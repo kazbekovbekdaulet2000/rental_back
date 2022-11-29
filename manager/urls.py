@@ -20,29 +20,29 @@ urlpatterns = [
     path("statistics/products/", ManagerStatisticProducts.as_view()),
     path('rentinhand/upload/', ManagerRentInHandFile.as_view()),
 
-    # # inventories
-    # path('inventories/status/', InventoryStatusList.as_view()),
-    # path('inventories/', InventoryList.as_view()),
-    # path('inventories/<int:id>/', InvenoryDetail.as_view()),
-    # path('inventories/<int:id>/history/', LogEntryObjectHistory.as_view(model=Inventory, lookup_field='id')),
-    # path('inventories/<int:inventory_id>/images/', InvenoryImagesList.as_view()),
+    # inventories
+    path('inventories/status/', InventoryStatusList.as_view()),
+    path('inventories/', InventoryList.as_view()),
+    path('inventories/<int:id>/', InvenoryDetail.as_view()),
+    path('inventories/<int:id>/history/', LogEntryObjectHistory.as_view(model=Inventory, lookup_field='id')),
+    path('inventories/<int:inventory_id>/images/', InvenoryImagesList.as_view()),
 
-    # # clients
-    # path('clients/', ClientList.as_view()),
-    # path('clients/<int:id>/', ClientDetail.as_view()),
-    # path('clients/<int:id>/history/', LogEntryObjectHistory.as_view(model=Client, lookup_field='id')),
-    # path('clients/<int:id>/legal/passports/', ClientPassportLegalList.as_view()),
-    # path('clients/<int:id>/individual/passports/', ClientPassportIndividualList.as_view()),
+    # clients
+    path('clients/', ClientList.as_view()),
+    path('clients/<int:id>/', ClientDetail.as_view()),
+    path('clients/<int:id>/history/', LogEntryObjectHistory.as_view(model=Client, lookup_field='id')),
+    path('clients/<int:id>/legal/passports/', ClientPassportLegalList.as_view()),
+    path('clients/<int:id>/individual/passports/', ClientPassportIndividualList.as_view()),
 
-    # # clients ticks
-    # path('clients/ticks/', ClientTicksList.as_view()),
-    # path('clients/ticks/<int:id>/', ClientTicksDetail.as_view()),
+    # clients ticks
+    path('clients/ticks/', ClientTicksList.as_view()),
+    path('clients/ticks/<int:id>/', ClientTicksDetail.as_view()),
 
-    # # orders
-    # path('orders/', ManagerOrderList.as_view()),
-    # path('orders/<int:id>/', ManagerOrderDetail.as_view()),
-    # path('orders/<int:id>/bag/', ManagerOrderBagDetail.as_view()),
+    # orders
+    path('orders/', ManagerOrderList.as_view()),
+    path('orders/<int:id>/', ManagerOrderDetail.as_view()),
+    path('orders/<int:id>/bag/', ManagerOrderBagDetail.as_view()),
 
-    # # LogEntry
-    # path('logs/', LogEntryList.as_view()),
+    # LogEntry
+    path('logs/', LogEntryList.as_view()),
 ]
