@@ -41,12 +41,16 @@ class Product(AbstractModel):
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        _discount = self.discounts.filter(discount__start_date__lte=timezone.now(), discount__end_date__gte=timezone.now()).last()
-        if(_discount):
-            self.discount = _discount.discount_percent
-            self.price = math.ceil(self.daily_price * _discount.discount_multiplier)
-        else:
-            self.price = self.daily_price
+        if(self.id):
+            _discount = self.discounts.filter(
+                discount__start_date__lte=timezone.now(),
+                discount__end_date__gte=timezone.now()
+            ).last()
+            if(_discount):
+                self.discount = _discount.discount_percent
+                self.price = math.ceil(self.daily_price * _discount.discount_multiplier)
+            else:
+                self.price = self.daily_price
 
 
     def save(self, *args, **kwargs):
