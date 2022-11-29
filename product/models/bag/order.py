@@ -18,6 +18,7 @@ class Order(AbstractModel):
     comment = models.TextField(max_length=500, null=True, blank=True)
     approved = models.BooleanField(verbose_name=_("Принят"), default=False)
     address = models.CharField(verbose_name=_('Адрес доставки'), max_length=255, null=True)
+    address_return = models.CharField(verbose_name=_('Адрес возврата'), max_length=255, null=True)
     client = models.ForeignKey(Client, related_name='orders', on_delete=models.DO_NOTHING, null=True)
 
     def __str__(self):
@@ -36,7 +37,7 @@ class Order(AbstractModel):
 
     @property
     def total_price(self):
-        return self.bag.total_price * self.total_days + self.bag.delivery_price
+        return self.bag.total_price * self.total_days + self.bag.delivery_price + self.bag.delivery_back_price
 
     @property
     def services_price(self):
@@ -55,11 +56,12 @@ class Order(AbstractModel):
         client = f"""Данные клиента:</b>\n\nИмя: <b>{self.name}</b>\n"""
         phone = f"""Номер телефона: <a href="tel:{self.phone}" className='phone'><b>{self.phone_prettify}</b></a>\n"""
         new_client = f"""Новый клиент: <b>{'да' if self.first_time_order else 'нет'}</b>\n"""
-        delivery = f"""Доставка: <b>{'да (2500 KZT)' if self.bag.delivery else 'нет'}</b>\n"""
+        delivery = f"""Доставка: <b>{'да' if self.bag.delivery else 'нет'}</b> <b>({str(self.bag.delivery_price + self.bag.delivery_back_price)+"KZT" if self.bag.delivery else ''})</b>\n"""
         address = f"""Адрес доставки: <b>{self.address}</b>\n""" if self.bag.delivery else ""
+        address_return = f"""Адрес возврата: <b>{self.address_return}</b>\n""" if self.bag.delivery_back else ""
         start = f"""Начала аренды: <b>{get_time(self.start_time)}</b>\n"""
         end = f"""Конец аренды: <b>{get_time(self.end_time)}</b>\n\n"""
-        return order + client + phone + new_client + delivery + address + start + end
+        return order + client + phone + new_client + delivery + address + address_return + start + end
 
     @property
     def phone_prettify(self):

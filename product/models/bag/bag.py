@@ -8,7 +8,8 @@ class UserBag(AbstractModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     previous_order = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
     delivery = models.BooleanField(default=False, null=False)
-     
+    delivery_back = models.BooleanField(default=False, null=False)
+    
     services = None
     services_price = None
     services__str = None
@@ -16,6 +17,7 @@ class UserBag(AbstractModel):
     total_price = None
     discount = None
     delivery_price = 0
+    delivery_back_price = 0
     timezone = None
 
     def __init__(self, *args, **kwargs) -> None:
@@ -29,6 +31,11 @@ class UserBag(AbstractModel):
             self.delivery_price = 2500 
         else:
             self.delivery_price = 0 
+
+        if(self.delivery_back and self.products.count() > 0):
+            self.delivery_back_price = 2500
+        else:
+            self.delivery_back_price = 0
             
         self.total_price = self.services_price + self.products_price
     

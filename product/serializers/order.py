@@ -9,8 +9,7 @@ from product.tasks import send_telegram_message
 class OrderCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ('id', 'name', 'phone', 'first_time_order',
-                  'start_time', 'end_time', 'comment', 'address', 'total_price', 'bag')
+        fields = ('id', 'name', 'phone', 'first_time_order', 'start_time', 'end_time', 'comment', 'address', 'address_return', 'total_price', 'bag')
         read_only_fields = ('total_price', 'bag')
 
     def create(self, validated_data):
