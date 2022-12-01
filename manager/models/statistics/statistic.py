@@ -10,7 +10,11 @@ class ManagerStat(models.Model):
 
     orders = None
     rnh_orders = None
-
+    orders_count = None
+    rnh_orders_count = None
+    orders_price = None
+    rnh_orders_price = None
+    
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         filter, rnh_filter = {}, {}
@@ -28,24 +32,18 @@ class ManagerStat(models.Model):
 
         self.orders = Order.objects.filter(**filter)
         self.rnh_orders = ManagerRentInHandOrder.objects.filter(**rnh_filter)
+        self.orders_count = self.orders.count
+        self.rnh_orders_count = self.rnh_orders.count
+        self.orders_price = self.get_orders_price()
+        self.rnh_orders_price = self.get_rnh_orders_price()
 
-    @property
-    def orders_count(self):
-        return self.orders.count
-
-    @property
-    def rnh_orders_count(self):
-        return self.rnh_orders.count
-
-    @property
-    def orders_price(self):
+    def get_orders_price(self):
         sum = 0
         for order in self.orders:
             sum += order.products_price
         return sum
 
-    @property
-    def rnh_orders_price(self):
+    def get_rnh_orders_price(self):
         return sum(self.rnh_orders.values_list('sum_rental', flat=True))
 
     class Meta:

@@ -17,8 +17,8 @@ class Order(AbstractModel):
     bag = models.ForeignKey(UserBag, on_delete=models.SET_NULL, null=True, blank=True)
     comment = models.TextField(max_length=500, null=True, blank=True)
     approved = models.BooleanField(verbose_name=_("Принят"), default=False)
-    address = models.CharField(verbose_name=_('Адрес доставки'), max_length=255, null=True)
-    address_return = models.CharField(verbose_name=_('Адрес возврата'), max_length=255, null=True)
+    address = models.CharField(verbose_name=_('Адрес доставки'), max_length=255, null=True, blank=True)
+    address_return = models.CharField(verbose_name=_('Адрес возврата'), max_length=255, null=True, blank=True)
     client = models.ForeignKey(Client, related_name='orders', on_delete=models.DO_NOTHING, null=True)
 
     def __str__(self):

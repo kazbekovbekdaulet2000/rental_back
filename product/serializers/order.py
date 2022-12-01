@@ -34,7 +34,7 @@ class OrderCreateSerializer(serializers.ModelSerializer):
             txt += f"""<b>Комментарии:</b> \n {res.comment} \n"""
 
         txt += (res.telegram_message_footer)
-
-        for user in BotUser.objects.filter(approved=True):
-            send_telegram_message.delay(user.user_id, txt)
+        print(txt)
+        # for user in BotUser.objects.filter(approved=True):
+        #     send_telegram_message.delay(user.user_id, txt)
         return res
