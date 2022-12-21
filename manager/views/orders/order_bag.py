@@ -5,7 +5,7 @@ from product.models.bag.order import Order
 from product.serializers.bag import UserBagSerializer
 
 
-class ManagerOrderBagDetail(generics.RetrieveAPIView):
+class ManagerOrderBagDetail(generics.RetrieveUpdateAPIView):
     queryset = None
     serializer_class = UserBagSerializer
     permission_classes = (permissions.IsAuthenticated, )

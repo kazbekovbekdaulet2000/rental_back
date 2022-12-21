@@ -8,6 +8,7 @@ class ClientList(generics.ListCreateAPIView):
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
     permission_classes = (permissions.IsAuthenticated, )
+    filterset_fields = ['tick', 'type', 'attraction_method']
 
 
 class ClientDetail(generics.RetrieveUpdateDestroyAPIView):

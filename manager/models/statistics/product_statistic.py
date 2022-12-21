@@ -64,7 +64,7 @@ class ManagerProductStat(models.Model):
                 })
             else:
                 self.orders_requests.update({
-                    str(productId): days*count
+                    str(productId): days*(count or 1)
                 })
             productIds.append(productId)
             if (productRnhId):
@@ -83,7 +83,7 @@ class ManagerProductStat(models.Model):
         rnh_id_dict = {}
         for id, rnh_id in self.inventories.values_list('id', 'rnh_id'):
             rnh_id_dict.update({str(id): rnh_id})
-            if(not rnh_id == None):
+            if (not rnh_id == None):
                 self.orders_approved.update({str(rnh_id): 0})
 
         for inventory, days in rnh_inv:

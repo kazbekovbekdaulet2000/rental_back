@@ -9,12 +9,14 @@ from product.tasks import send_telegram_message
 class OrderCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ('id', 'name', 'phone', 'first_time_order', 'start_time', 'end_time', 'comment', 'address', 'address_return', 'total_price', 'bag')
+        fields = ('id', 'name', 'phone', 'first_time_order', 'start_time',
+                  'end_time', 'comment', 'address', 'address_return', 'total_price', 'bag')
         read_only_fields = ('total_price', 'bag')
 
     def create(self, validated_data):
         validated_data['bag'] = get_object_or_404(
-            UserBag, id=self.context['view'].kwargs['uuid'])
+            UserBag, id=self.context['view'].kwargs['uuid']
+        )
         res = super().create(validated_data)
         products = res.bag.products.all()
         services = res.bag.services
@@ -34,7 +36,7 @@ class OrderCreateSerializer(serializers.ModelSerializer):
             txt += f"""<b>Комментарии:</b> \n {res.comment} \n"""
 
         txt += (res.telegram_message_footer)
-        print(txt)
-        # for user in BotUser.objects.filter(approved=True):
-        #     send_telegram_message.delay(user.user_id, txt)
+
+        for user in BotUser.objects.filter(approved=True):
+            send_telegram_message.delay(user.user_id, txt)
         return res

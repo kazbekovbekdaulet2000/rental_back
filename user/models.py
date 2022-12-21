@@ -1,10 +1,10 @@
 # from django.utils.translation import gettext_lazy as _
 # from django.db import models
-# from django.contrib.auth.models import (
-#     AbstractBaseUser, 
-#     BaseUserManager, 
-#     PermissionsMixin
-# )
+from django.contrib.auth.models import (
+    AbstractBaseUser, 
+    BaseUserManager, 
+    PermissionsMixin
+)
 # from common.contants import USER_TYPE
 # from common.custom_model import AbstractModel
 # from common.image_progressive import create_thumbnail, has_changed

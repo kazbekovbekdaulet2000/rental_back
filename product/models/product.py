@@ -3,16 +3,20 @@ from django.db import models
 from common.custom_model import AbstractModel
 from django.contrib.postgres.fields import ArrayField
 from ckeditor_uploader.fields import RichTextUploadingField
+from manager.models.interchangeable.interchangeable import Interchangeable
 from product.models.category import Category
 from pytils.translit import slugify
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
+from auditlog.registry import auditlog
+from auditlog.models import AuditlogHistoryField
+
 
 PRODUCT_TYPE = (
-    (0, 'товар'),
-    (1, 'сет товаров'),
-    (2, 'комплект')
+    (0, 'Товар'),
+    (2, 'Комплект')
 )
+
 
 class Product(AbstractModel):
     name_ru = models.CharField(max_length=255)
@@ -32,9 +36,14 @@ class Product(AbstractModel):
     type = models.PositiveIntegerField(default=0, choices=PRODUCT_TYPE)
     
     related_products_array = ArrayField(base_field=models.PositiveIntegerField(), null=True, blank=True)
+    parts = models.ManyToManyField(Interchangeable, related_name='products')
+
+    history = AuditlogHistoryField()
 
     discount = None
     price = None
+    tarif = None
+    image = None
 
     def __str__(self):
         return self.name_ru
@@ -52,6 +61,9 @@ class Product(AbstractModel):
             else:
                 self.price = self.daily_price
 
+            images = self.images.filter(type=1)
+            if images.count() > 0:
+                self.image = images.first()
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name_ru)
@@ -62,3 +74,6 @@ class Product(AbstractModel):
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
         index_together = (('id', 'slug'), )
+
+
+auditlog.register(Product)

@@ -9,7 +9,9 @@ class UserBag(AbstractModel):
     previous_order = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
     delivery = models.BooleanField(default=False, null=False)
     delivery_back = models.BooleanField(default=False, null=False)
-    
+    start_at = models.DateTimeField(null=True)
+    end_at = models.DateTimeField(null=True)
+
     services = None
     services_price = None
     services__str = None

@@ -1,4 +1,5 @@
 from auditlog.models import LogEntry
+from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework import permissions
 from manager.serializers.log import LogEntrySerializer
@@ -22,5 +23,5 @@ class LogEntryObjectHistory(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticated, )
 
     def get_queryset(self):
-        obj = self.model.objects.get(id=self.kwargs[self.lookup_field])
+        obj = get_object_or_404(self.model, id=self.kwargs[self.lookup_field])
         return LogEntry.objects.get_for_object(obj)

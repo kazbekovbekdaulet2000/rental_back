@@ -7,5 +7,5 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'rental_back.settings')
 app = Celery('rental_back')
 
 app.config_from_object('django.conf:settings', namespace="CELERY")
-app.autodiscover_tasks()
+app.autodiscover_tasks()  
 app.conf.timezone = 'Asia/Almaty'

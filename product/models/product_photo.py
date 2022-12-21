@@ -5,10 +5,11 @@ from common.image_progressive import create_thumbnail, has_changed
 from product.models.product import Product
 from product.models.service import Service
 
-PHOTO_TYPE = (
-    (0, 'carousel'),
-    (1, 'preview'),
-)
+
+class ProductPhotoType(models.IntegerChoices):
+    CAROUSEL = 0, _("Карусель")
+    PREVIEW = 1, _("Превью")
+
 
 def thumb_dir(instance, filename):
     if(instance.service):
@@ -18,7 +19,6 @@ def thumb_dir(instance, filename):
     return "products"
 
 
-
 class ProductPhoto(AbstractModel):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="images", null=True, blank=True)
     service = models.ForeignKey(Service, on_delete=models.CASCADE, related_name="images", null=True, blank=True)
@@ -26,14 +26,14 @@ class ProductPhoto(AbstractModel):
     image_thumb360 = models.ImageField(verbose_name=_('Фото (360px)'), upload_to=thumb_dir, max_length=500, null=True, blank=True)
     image_thumb720 = models.ImageField(verbose_name=_('Фото (720px)'), upload_to=thumb_dir, max_length=500, null=True, blank=True)
     image_thumb1080 = models.ImageField(verbose_name=_('Фото (1080px)'), upload_to=thumb_dir, max_length=500, null=True, blank=True)
-    type = models.PositiveIntegerField(default=0, choices=PHOTO_TYPE)
+    type = models.PositiveIntegerField(default=ProductPhotoType.CAROUSEL, choices=ProductPhotoType.choices)
     
     def __str__(self):
         if(self.service):
             return f"{self.service.name_ru}"
         if(self.product):
             return f"{self.product.name_ru}"
-        return f"{self.product.name_ru}"
+        return self.image
 
     def save(self, *args, **kwargs):
         if (has_changed(self, 'image') and self.type == 0):

@@ -2,7 +2,6 @@ import math
 from django.db import models
 from common.custom_model import AbstractModel
 from django.utils.translation import gettext_lazy as _
-from manager.models.clients.client import Client
 from product.models.bag.bag import UserBag
 from django.utils import timezone
 from django.db.models.signals import post_save
@@ -19,8 +18,7 @@ class Order(AbstractModel):
     approved = models.BooleanField(verbose_name=_("Принят"), default=False)
     address = models.CharField(verbose_name=_('Адрес доставки'), max_length=255, null=True, blank=True)
     address_return = models.CharField(verbose_name=_('Адрес возврата'), max_length=255, null=True, blank=True)
-    client = models.ForeignKey(Client, related_name='orders', on_delete=models.DO_NOTHING, null=True)
-
+    
     def __str__(self):
         return f"{self.name}, {self.phone} ({self.created_at})"
 
@@ -80,7 +78,13 @@ class Order(AbstractModel):
 
 
 def send_tg_message(sender, instance, created, **kwargs):
-    pass
+    print(instance.bag.start_at, instance.bag.end_at)
+    product_count = instance.bag.products.all()
+    for bag in product_count:
+        pass
+        # for product_part in bag.product.parts.all():
+        #     if(product_part.have_free_inventories(instance.start_time, instance.end_time, bag.count)):
+        #         print(product_part.get_free_inventories(bag.count))
 
 
 post_save.connect(send_tg_message, sender=Order)

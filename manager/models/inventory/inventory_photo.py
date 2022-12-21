@@ -16,5 +16,4 @@ class InventoryPhoto(AbstractModel):
             self.photo = create_thumbnail(self.photo, 720)
         super(InventoryPhoto, self).save(*args, **kwargs)
 
-
 auditlog.register(InventoryPhoto)

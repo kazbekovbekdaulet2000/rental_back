@@ -116,6 +116,10 @@ class HiddenAdmin(admin.ModelAdmin):
         return {}
 
 
+# fake
+class ProductPhotoAdmin(admin.ModelAdmin):
+    list_display = ('id', 'product', 'image', 'created_at')
+
 # product
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Category, CategoryAdmin)
@@ -130,7 +134,8 @@ admin.site.register(Order, OrderAdmin)
 admin.site.register(ProductAnnouncement)
 
 # hidden Models
-admin.site.register(ProductPhoto, HiddenAdmin)
+admin.site.register(ProductPhoto, ProductPhotoAdmin)
+# admin.site.register(ProductPhoto, HiddenAdmin)
 admin.site.register(Attribute, HiddenAdmin)
 admin.site.register(ProductSet, HiddenAdmin)
 admin.site.register(ProductService, HiddenAdmin)
