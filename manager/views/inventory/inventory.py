@@ -32,13 +32,14 @@ class InvenoryDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Inventory.objects.all()
     serializer_class = InventoryCreateSerializer
     permission_classes = (permissions.IsAuthenticated, )
-
+    
     def get_serializer_class(self):
         if self.request.method in permissions.SAFE_METHODS:
             return InventorySerializer
         if self.request.method == "POST":
             return InventoryCreateSerializer
         return InventoryUpdateSerializer
+
 
 class InvenoryImagesList(generics.ListCreateAPIView):
     lookup_field = 'inventory_id'

@@ -24,8 +24,12 @@ class InventoryCreateSerializer(serializers.ModelSerializer):
         model = Inventory
         fields = ('id', 'name', 'unique_id', 'status', 'buy_price', 
                   'buy_date', 'comment', 'photos', 'rent_point', 'category')
+        read_only_fields = ('unique_id',)
 
     def create(self, validated_data):
+        last_inventory=Inventory.objects.filter(category=validated_data.get('category')).count()
+        id = last_inventory + 1
+        validated_data['unique_id'] = validated_data.get('category').prefix + f"{id:04}"
         photos = validated_data.get('photos') or []
         dict = {}
         for val in list(validated_data):

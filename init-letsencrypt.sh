@@ -9,7 +9,7 @@ email="kazbekov.bekdaulet2000@gmail.com" # Adding a valid address is strongly re
 staging=1 # Set to 1 if you're testing your setup to avoid hitting request limits
 
 if [ -d "$data_path" ]; then
-  read -p "Existing data found for app.yumerental.com. Continue and replace existing certificate? (y/N) " decision
+  read -p "Existing data found for app.dev.yumerental.com. Continue and replace existing certificate? (y/N) " decision
   if [ "$decision" != "Y" ] && [ "$decision" != "y" ]; then
     exit
   fi
@@ -24,9 +24,9 @@ if [ ! -e "$data_path/conf/options-ssl-nginx.conf" ] || [ ! -e "$data_path/conf/
   echo
 fi
 
-echo "### Creating dummy certificate for app.yumerental.com ..."
-path="/etc/letsencrypt/live/app.yumerental.com"
-mkdir -p "$data_path/conf/live/app.yumerental.com"
+echo "### Creating dummy certificate for app.dev.yumerental.com ..."
+path="/etc/letsencrypt/live/app.dev.yumerental.com"
+mkdir -p "$data_path/conf/live/app.dev.yumerental.com"
 docker-compose run --rm --entrypoint "\
   openssl req -x509 -nodes -newkey rsa:$rsa_key_size -days 30\
     -keyout '$path/privkey.pem' \
@@ -39,17 +39,17 @@ echo "### Starting nginx ..."
 docker-compose up --force-recreate -d nginx
 echo
 
-echo "### Deleting dummy certificate for app.yumerental.com ..."
+echo "### Deleting dummy certificate for app.dev.yumerental.com ..."
 docker-compose run --rm --entrypoint "\
-  rm -Rf /etc/letsencrypt/live/app.yumerental.com && \
-  rm -Rf /etc/letsencrypt/archive/app.yumerental.com && \
-  rm -Rf /etc/letsencrypt/renewal/app.yumerental.com.conf" certbot
+  rm -Rf /etc/letsencrypt/live/app.dev.yumerental.com && \
+  rm -Rf /etc/letsencrypt/archive/app.dev.yumerental.com && \
+  rm -Rf /etc/letsencrypt/renewal/app.dev.yumerental.com.conf" certbot
 echo
 
 
-echo "### Requesting Let's Encrypt certificate for app.yumerental.com ..."
-#Join app.yumerental.com to -d args
-domain_args="-d app.yumerental.com"
+echo "### Requesting Let's Encrypt certificate for app.dev.yumerental.com ..."
+#Join app.dev.yumerental.com to -d args
+domain_args="-d app.dev.yumerental.com"
 
 # Select appropriate email arg
 case "$email" in
