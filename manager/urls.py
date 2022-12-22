@@ -7,6 +7,7 @@ from manager.views.clents.ticks import ClientTicksDetail, ClientTicksList
 from manager.views.constants import ConstantsView
 from manager.views.interchangeables.interchangeables import ManagerInterchangeableDetail, ManagerInterchangeableList
 from manager.views.inventory.inventory import InvenoryDetail, InvenoryImagesList, InventoryList, ManagerInventoryBulkCreate
+from manager.views.inventory.inventory_set import InventorySetDetail, InventorySetItemDetail, InventorySetItemList, InventorySetList
 from manager.views.inventory.inventory_status import InventoryStatusList
 from manager.views.inventory.inventory_tarif import InventoryTarifBulkCreate, InventoryTarifDetail, InventoryTarifList, InventoryTarifProducts
 from manager.views.object_history import LogEntryObjectHistory
@@ -35,7 +36,7 @@ urlpatterns = [
     path('products/<int:product_id>/images/<int:id>/', ManagerProductImageDelete.as_view()),
     path('products/<int:id>/history/', LogEntryObjectHistory.as_view(model=Product, lookup_field='id')),
 
-    # product parts
+    # product interchangeables
     path('products/<int:product_id>/parts/', ManagerProductPartList.as_view()), 
     path('products/<int:product_id>/parts/<int:id>/', ManagerProductPartDetail.as_view()), 
 
@@ -55,9 +56,11 @@ urlpatterns = [
     path('inventories/interchangeables/', ManagerInterchangeableList.as_view()),
     path('inventories/interchangeables/<int:id>/', ManagerInterchangeableDetail.as_view()),
 
-    # # TODO
-    # path('inventories/sets/', InventoryTarifProducts.as_view()),
-    # path('inventories/sets/<int:id>/', InventoryTarifProducts.as_view()),
+    # inventory sets
+    path('inventories/sets/', InventorySetList.as_view()),
+    path('inventories/sets/<int:id>/', InventorySetDetail.as_view()),
+    path('inventories/sets/<int:set_id>/items/', InventorySetItemList.as_view()),
+    path('inventories/sets/<int:set_id>/items/<int:id>/', InventorySetItemDetail.as_view()),
     
     # services
     path('services/', ManagerServiceList.as_view()),

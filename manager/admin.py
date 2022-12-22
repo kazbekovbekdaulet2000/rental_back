@@ -8,6 +8,7 @@ from manager.models.inventory.inventory import Inventory
 from manager.models.inventory.inventory_category import InventoryCategory
 from manager.models.inventory.inventory_photo import InventoryPhoto
 from manager.models.inventory.inventory_schedule import InventorySchedule
+from manager.models.inventory.inventory_set import InventorySet, InventorySetItem
 from manager.models.inventory.inventory_status import InventoryStatus
 from manager.models.inventory.inventory_tarif import InventoryTarif
 from manager.models.interchangeable.interchangeable import Interchangeable
@@ -20,11 +21,13 @@ class InventoryTarifAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "inventory", "default")
     list_filter = ("price", )
 
+
 admin.site.register(InventoryTarif, InventoryTarifAdmin)
 
 
 class InventoryAdmin(admin.ModelAdmin):
     list_display = ("id", "buy_price")
+
 
 admin.site.register(Inventory, InventoryAdmin)
 
@@ -38,6 +41,8 @@ admin.site.register([
 
 admin.site.register([
     Interchangeable,
+    InventorySet,
+    InventorySetItem,
     InventorySchedule,
     InventoryPhoto,
     InventoryStatus,
