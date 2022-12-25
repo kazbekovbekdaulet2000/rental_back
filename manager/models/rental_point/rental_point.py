@@ -8,3 +8,6 @@ class RentalPoint(AbstractModel):
     
     def __str__(self):
         return self.address
+
+    class Meta:  
+        ordering = ('-created_at', )

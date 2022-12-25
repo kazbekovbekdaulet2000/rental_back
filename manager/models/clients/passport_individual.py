@@ -13,5 +13,7 @@ class ClientPassportIndividual(AbstractModel):
     issue_date_end = models.DateField()
     history = AuditlogHistoryField()
 
+    class Meta:  
+        ordering = ('-created_at', )
 
 auditlog.register(ClientPassportIndividual)

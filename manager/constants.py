@@ -27,3 +27,11 @@ class InventoryStatusType(models.IntegerChoices):
     RESERVED = 1, _("Зарезервировано")
     INREND = 2, _("В аренде")
     BROKEN = 3, _("Сломано")
+
+
+class OrderRequestStatus(models.IntegerChoices):
+    REQUEST = 0, _('Запрос')
+    RESERVED = 1, _('Зарезервировано')
+    INRENT = 2, _('В аренде')
+    CANCELED = 3, _('Отменено')
+    COMPLETED = 4, _('Завершено')

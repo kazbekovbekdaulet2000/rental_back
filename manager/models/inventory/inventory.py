@@ -52,6 +52,9 @@ class Inventory(AbstractModel):
 
     def __str__(self):
         return f"{self.name} ({self.unique_id})"
+        
+    class Meta:  
+        ordering = ('-created_at', )
 
 
 auditlog.register(Inventory)

@@ -8,3 +8,6 @@ class InventoryStatus(AbstractModel):
     comment = models.TextField(max_length=512, null=True)
     status = models.PositiveSmallIntegerField(default=InventoryStatusType.FREE, choices=InventoryStatusType.choices)
     disable = models.BooleanField(default=False)
+    
+    class Meta:  
+        ordering = ('-created_at', )

@@ -18,7 +18,8 @@ class InventoryTarif(AbstractModel):
     def __str__(self):
         return f"{self.inventory.__str__()} - {self.name} ({self.price})"
 
-    class Meta:
+    class Meta: 
+        ordering = ('-created_at', )        
         unique_together = ('default', 'inventory', 'price')
 
 

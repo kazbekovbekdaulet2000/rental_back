@@ -15,11 +15,11 @@ class InventoryList(generics.ListCreateAPIView):
     filter_backends = (DjangoFilterBackend, SearchFilter)
     search_fields = ('name', 'unique_id')
     filterset_fields = ('category', 'status')
-    
+
     def get_serializer_class(self):
-        if self.request.method == "POST":
-            return InventoryCreateSerializer
-        return super().get_serializer_class()
+        if self.request.method in permissions.SAFE_METHODS:
+            return InventorySerializer
+        return InventoryCreateSerializer
 
 
 class ManagerInventoryBulkCreate(generics.CreateAPIView):
@@ -32,7 +32,7 @@ class InvenoryDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Inventory.objects.all()
     serializer_class = InventoryCreateSerializer
     permission_classes = (permissions.IsAuthenticated, )
-    
+
     def get_serializer_class(self):
         if self.request.method in permissions.SAFE_METHODS:
             return InventorySerializer

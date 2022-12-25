@@ -14,6 +14,9 @@ from manager.models.inventory.inventory_tarif import InventoryTarif
 from manager.models.interchangeable.interchangeable import Interchangeable
 from manager.models.order.order import ManagerOrder
 from manager.models.order.order_inventory import ManagerOrderInventory
+from manager.models.order_request.request import OrderRequest
+from manager.models.order_request.request_inventory import OrderRequestInventory
+from manager.models.order_request.request_service import OrderRequestService
 from manager.models.rental_point.rental_point import RentalPoint
 
 
@@ -49,9 +52,16 @@ admin.site.register([
     InventoryCategory
 ])
 
+# need to remove
 admin.site.register([
     ManagerOrder,
     ManagerOrderInventory,
+])
+
+admin.site.register([
+    OrderRequest,
+    OrderRequestInventory,
+    OrderRequestService
 ])
 
 admin.site.register([RentalPoint, ])

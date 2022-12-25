@@ -11,6 +11,8 @@ class ClientPassportLegal(AbstractModel):
     director = models.CharField(max_length=255)
     contacts = models.TextField(max_length=512)
     history = AuditlogHistoryField()
-
+   
+    class Meta:  
+        ordering = ('-created_at', )
 
 auditlog.register(ClientPassportLegal)

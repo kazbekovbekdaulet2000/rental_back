@@ -50,5 +50,7 @@ class Client(AbstractModel):
             self.avatar = create_thumbnail(self.avatar, 640)
         super(Client, self).save(*args, **kwargs)
 
+    class Meta:  
+        ordering = ('-created_at', )
 
 auditlog.register(Client)

@@ -11,6 +11,7 @@ from manager.views.inventory.inventory_set import InventorySetDetail, InventoryS
 from manager.views.inventory.inventory_status import InventoryStatusList
 from manager.views.inventory.inventory_tarif import InventoryTarifBulkCreate, InventoryTarifDetail, InventoryTarifList, InventoryTarifProducts
 from manager.views.object_history import LogEntryObjectHistory
+from manager.views.order_requests.requests import OrderRequestDetail, OrderRequestList
 from manager.views.orders.order_bag import ManagerOrderBagDetail
 from manager.views.orders.orders import ManagerOrderDetail, ManagerOrderList
 from manager.views.product.product import ManagerProductDetail, ManagerProductsList
@@ -77,17 +78,17 @@ urlpatterns = [
     path('clients/ticks/', ClientTicksList.as_view()),
     path('clients/ticks/<int:id>/', ClientTicksDetail.as_view()),
     
-    # orders
-    path('orders/', ManagerOrderList.as_view()),
-    path('orders/<int:id>/', ManagerOrderDetail.as_view()),
-    path('orders/<int:id>/bag/', ManagerOrderBagDetail.as_view()),
+    # # orders
+    # path('orders/', ManagerOrderList.as_view()),
+    # path('orders/<int:id>/', ManagerOrderDetail.as_view()),
+    # path('orders/<int:id>/bag/', ManagerOrderBagDetail.as_view()),
 
     # manager orders
-    # path('requests/', None),
-    # path('requests/<int:id>/', None),
+    path('requests/', OrderRequestList.as_view()),
+    path('requests/<int:id>/', OrderRequestDetail.as_view()),
     # path('requests/<int:id>/inventories/', None),
     # path('requests/<int:id>/services/', None),
-    # path('requests/<int:id>/inventories/<int:inventory_id>/to_rent/', None),
-    # path('requests/<int:id>/inventories/<int:inventory_id>/submit_rent/', None),
-    # path('requests/<int:id>/inventories/<int:inventory_id>/broken/', None),
+    # path('requests/<int:request_id>/inventories/<int:inventory_id>/to_rent/', None),
+    # path('requests/<int:request_id>/inventories/<int:inventory_id>/submit_rent/', None),
+    # path('requests/<int:request_id>/inventories/<int:inventory_id>/broken/', None),
 ]

@@ -15,5 +15,8 @@ class InventoryPhoto(AbstractModel):
         if (has_changed(self, 'photo') and self.type == 0):
             self.photo = create_thumbnail(self.photo, 720)
         super(InventoryPhoto, self).save(*args, **kwargs)
+        
+    class Meta:  
+        ordering = ('-created_at', )
 
 auditlog.register(InventoryPhoto)

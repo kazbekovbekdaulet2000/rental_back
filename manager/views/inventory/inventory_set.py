@@ -38,5 +38,10 @@ class InventorySetItemDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = InventorySetItemSerializer
     permission_classes = (permissions.IsAuthenticated, )
 
+    def get_serializer_class(self):
+        if self.request.method in permissions.SAFE_METHODS:
+            return InventorySetItemSerializer
+        return InventorySetItemCreateSerializer
+
     def get_queryset(self):
         return InventorySetItem.objects.filter(set_id=self.kwargs['set_id'])

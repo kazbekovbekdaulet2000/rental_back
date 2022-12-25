@@ -11,5 +11,7 @@ class ClientTick(AbstractModel):
     comment = models.TextField(max_length=512, null=True)
     history = AuditlogHistoryField()
 
-
+    class Meta:  
+        ordering = ('-created_at', )
+        
 auditlog.register(ClientTick)

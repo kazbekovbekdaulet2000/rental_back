@@ -14,5 +14,7 @@ class ClientDiscount(AbstractModel):
     end_time = models.DateTimeField(null=True)
     history = AuditlogHistoryField()
 
+    class Meta:  
+        ordering = ('-created_at', )
 
 auditlog.register(ClientDiscount)

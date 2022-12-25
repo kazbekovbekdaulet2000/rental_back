@@ -25,6 +25,8 @@ class ManagerOrder(AbstractModel):
     rent_start = models.DateTimeField(null=True)
     rent_end = models.DateTimeField(null=True)
 
+    class Meta:  
+        ordering = ('-created_at', )
 
 @shared_task(time_limit=600)
 def metricst_update():

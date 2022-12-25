@@ -10,3 +10,6 @@ class InventorySchedule(AbstractModel):
     
     def __str__(self) -> str:
         return f"{self.inventory.name} - ({self.start_at} - {self.end_at})"
+        
+    class Meta:  
+        ordering = ('-created_at', )
