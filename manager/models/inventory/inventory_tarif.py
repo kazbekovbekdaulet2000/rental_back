@@ -16,7 +16,7 @@ class InventoryTarif(AbstractModel):
     history = AuditlogHistoryField()
 
     def __str__(self):
-        return f"{self.inventory.__str__()} - {self.name} ({self.price})"
+        return f"{self.name} ({self.price})"
 
     class Meta: 
         ordering = ('-created_at', )        

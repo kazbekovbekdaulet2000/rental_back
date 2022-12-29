@@ -1,6 +1,6 @@
 from rest_framework import generics
 from rest_framework import permissions
-from manager.serializers.product.product_image import ManagerProductImageSerializer
+from manager.serializers.product.product_image import ManagerProductImageBulkCreateSerializer, ManagerProductImageSerializer
 from product.models.product_photo import ProductPhoto
 
 
@@ -11,7 +11,7 @@ class ManagerProductImageList(generics.ListCreateAPIView):
     pagination_class = None
 
     def get_queryset(self):
-        return ProductPhoto.objects.filter(product_id=self.kwargs['id'])
+        return ProductPhoto.objects.filter(product_id=self.kwargs['product_id'])
 
 
 class ManagerProductImageDelete(generics.DestroyAPIView):
@@ -22,3 +22,7 @@ class ManagerProductImageDelete(generics.DestroyAPIView):
 
     def get_queryset(self):
         return ProductPhoto.objects.filter(product_id=self.kwargs['product_id'])
+
+class ManagerProductImageBulkCreate(generics.CreateAPIView):
+    serializer_class = ManagerProductImageBulkCreateSerializer
+    permission_classes = (permissions.IsAuthenticated, )

@@ -6,18 +6,16 @@ from manager.views.clents.client_passport import ClientPassportIndividualList, C
 from manager.views.clents.ticks import ClientTicksDetail, ClientTicksList
 from manager.views.constants import ConstantsView
 from manager.views.interchangeables.interchangeables import ManagerInterchangeableDetail, ManagerInterchangeableList
-from manager.views.inventory.inventory import InvenoryDetail, InvenoryImagesList, InventoryList, ManagerInventoryBulkCreate
+from manager.views.inventory.inventory import InvenoryDetail, InvenoryImageDelete, InvenoryImagesBulkCreate, InvenoryImagesList, InventoryList, ManagerInventoryBulkCreate
 from manager.views.inventory.inventory_set import InventorySetDetail, InventorySetItemDetail, InventorySetItemList, InventorySetList
 from manager.views.inventory.inventory_status import InventoryStatusList
 from manager.views.inventory.inventory_tarif import InventoryTarifBulkCreate, InventoryTarifDetail, InventoryTarifList, InventoryTarifProducts
 from manager.views.object_history import LogEntryObjectHistory
 from manager.views.order_requests.requests import OrderRequestDetail, OrderRequestList
-from manager.views.orders.order_bag import ManagerOrderBagDetail
-from manager.views.orders.orders import ManagerOrderDetail, ManagerOrderList
 from manager.views.product.product import ManagerProductDetail, ManagerProductsList
-from manager.views.product.product_image import ManagerProductImageDelete, ManagerProductImageList
+from manager.views.product.product_image import ManagerProductImageBulkCreate, ManagerProductImageDelete, ManagerProductImageList
 from manager.views.product.product_set import ManagerProductSetBulkCreate, ManagerProductSetDetail, ManagerProductSetList
-from manager.views.interchangeables.product_parts import ManagerProductPartDetail, ManagerProductPartList
+from manager.views.interchangeables.product_parts import ManagerProductInterchangeableList, ManagerProductInterchangeableDetail
 from manager.views.service.service import ManagerServiceDetail, ManagerServiceList
 from manager.views.service.service_images import ManagerServiceImageDelete, ManagerServiceImageList
 from product.models.product import Product
@@ -33,13 +31,14 @@ urlpatterns = [
     path('products/<int:id>/set/', ManagerProductSetList.as_view()),
     path('products/<int:id>/set/bulk_create/', ManagerProductSetBulkCreate.as_view()),
     path('products/<int:product_id>/set/<int:id>/', ManagerProductSetDetail.as_view()),
-    path('products/<int:id>/images/', ManagerProductImageList.as_view()),
+    path('products/<int:product_id>/images/', ManagerProductImageList.as_view()),
     path('products/<int:product_id>/images/<int:id>/', ManagerProductImageDelete.as_view()),
+    path('products/<int:product_id>/images/bulk_create/', ManagerProductImageBulkCreate.as_view()),
     path('products/<int:id>/history/', LogEntryObjectHistory.as_view(model=Product, lookup_field='id')),
 
     # product interchangeables
-    path('products/<int:product_id>/parts/', ManagerProductPartList.as_view()), 
-    path('products/<int:product_id>/parts/<int:id>/', ManagerProductPartDetail.as_view()), 
+    path('products/<int:product_id>/parts/', ManagerProductInterchangeableList.as_view()), 
+    path('products/<int:product_id>/parts/<int:id>/', ManagerProductInterchangeableDetail.as_view()), 
 
     # inventories
     path('inventories/status/', InventoryStatusList.as_view()),
@@ -48,6 +47,8 @@ urlpatterns = [
     path('inventories/<int:id>/', InvenoryDetail.as_view()),
     path('inventories/<int:id>/history/', LogEntryObjectHistory.as_view(model=Inventory, lookup_field='id')),
     path('inventories/<int:inventory_id>/images/', InvenoryImagesList.as_view()),
+    path('inventories/<int:inventory_id>/images/<int:id>/', InvenoryImageDelete.as_view()),
+    path('inventories/<int:inventory_id>/images/bulk_create/', InvenoryImagesBulkCreate.as_view()),
     path('inventories/<int:inventory_id>/tarifs/', InventoryTarifList.as_view()),
     path('inventories/<int:inventory_id>/tarifs/bulk_create/', InventoryTarifBulkCreate.as_view()),
     path('inventories/<int:inventory_id>/tarifs/<int:id>/', InventoryTarifDetail.as_view()),

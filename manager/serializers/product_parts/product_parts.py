@@ -10,14 +10,14 @@ class InterchangeableInventorySerializer(serializers.ModelSerializer):
 
 
 class InterchangeableSerializer(serializers.ModelSerializer):
-    inventories = InterchangeableInventorySerializer(many=True, read_only=True)
-
     class Meta:
         model = Interchangeable
         fields = "__all__"
 
 
-class InterchangeableCreateSerializer(serializers.ModelSerializer):
+class InterchangeableDetailSerializer(serializers.ModelSerializer):
+    inventories = InterchangeableInventorySerializer(many=True, read_only=True)
+
     class Meta:
         model = Interchangeable
         fields = "__all__"

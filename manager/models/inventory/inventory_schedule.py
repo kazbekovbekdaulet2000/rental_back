@@ -9,7 +9,7 @@ class InventorySchedule(AbstractModel):
     completed = models.BooleanField(default=False)
     
     def __str__(self) -> str:
-        return f"{self.inventory.name} - ({self.start_at} - {self.end_at})"
-        
+        return f"({self.start_at} - {self.end_at})"
+
     class Meta:  
         ordering = ('-created_at', )

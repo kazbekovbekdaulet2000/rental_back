@@ -1,6 +1,5 @@
 from manager.models.inventory.inventory import Inventory
 from rest_framework import serializers
-from manager.models.inventory.inventory_photo import InventoryPhoto
 from manager.serializers.inventory.inventory_image import InventoryPhotoSerializer
 from manager.serializers.inventory.inventory_tarif import InventoryTarifSerializer
 
@@ -15,34 +14,17 @@ class InventorySerializer(serializers.ModelSerializer):
 
 
 class InventoryCreateSerializer(serializers.ModelSerializer):
-    photos = serializers.ListField(
-        child=serializers.ImageField(),
-        required=False
-    )
-
     class Meta:
         model = Inventory
         fields = ('id', 'name', 'unique_id', 'status', 'buy_price', 
-                  'buy_date', 'comment', 'photos', 'rent_point', 'category')
+                  'buy_date', 'comment', 'rent_point', 'category')
         read_only_fields = ('unique_id',)
 
     def create(self, validated_data):
         last_inventory=Inventory.objects.filter(category=validated_data.get('category')).count()
         id = last_inventory + 1
         validated_data['unique_id'] = validated_data.get('category').prefix + f"{id:04}"
-        photos = validated_data.get('photos') or []
-        dict = {}
-        for val in list(validated_data):
-            if (not (str(val) == 'photos')):
-                dict.update({str(val): validated_data.get(val)})
-
-        inventory = Inventory.objects.create(**dict)
-
-        InventoryPhoto.objects.bulk_create(
-            InventoryPhoto(photo=photo, inventory=inventory) for photo in photos
-        )
-
-        return validated_data
+        return super().create(validated_data)
 
 
 class InventoryUpdateSerializer(serializers.ModelSerializer):

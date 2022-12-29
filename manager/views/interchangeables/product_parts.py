@@ -2,11 +2,11 @@ from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework import permissions
 from manager.models.interchangeable.interchangeable import Interchangeable
-from manager.serializers.product_parts.product_parts import InterchangeableSerializer
+from manager.serializers.product_parts.product_parts import InterchangeableDetailSerializer, InterchangeableSerializer
 from product.models.product import Product
 
 
-class ManagerProductPartList(generics.ListCreateAPIView):
+class ManagerProductInterchangeableList(generics.ListCreateAPIView):
     queryset = Interchangeable.objects.all()
     serializer_class = InterchangeableSerializer
     permission_classes = (permissions.IsAuthenticated, )
@@ -17,9 +17,9 @@ class ManagerProductPartList(generics.ListCreateAPIView):
         return product.parts
 
 
-class ManagerProductPartDetail(generics.RetrieveUpdateDestroyAPIView):
+class ManagerProductInterchangeableDetail(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = "id"
-    serializer_class = InterchangeableSerializer
+    serializer_class = InterchangeableDetailSerializer
     permission_classes = (permissions.IsAuthenticated, )
 
     def get_queryset(self):
