@@ -6,8 +6,8 @@ from manager.models.inventory.inventory_category import InventoryCategory
 
 class InventorySet(AbstractModel):
     name = models.CharField(max_length=255)
-    unique_id = models.CharField(max_length=32, unique=True, null=False)
-    category = models.ForeignKey(InventoryCategory, on_delete=models.CASCADE, null=False)
+    unique_id = models.CharField(max_length=32, unique=True, null=True)
+    category = models.ForeignKey(InventoryCategory, on_delete=models.CASCADE, null=True)
 
     class Meta:  
         ordering = ('-created_at', )
