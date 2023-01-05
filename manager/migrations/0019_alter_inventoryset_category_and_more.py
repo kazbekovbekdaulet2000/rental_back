@@ -24,6 +24,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='inventorysetitem',
             name='tarif_price',
-            field=models.IntegerField(),
+            field=models.IntegerField(default=1),
         ),
     ]
