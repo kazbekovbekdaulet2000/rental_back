@@ -16,7 +16,6 @@ class ManagerProductImageList(generics.ListCreateAPIView):
 
 class ManagerProductImageDelete(generics.DestroyAPIView):
     lookup_field = 'id'
-    queryset = None
     serializer_class = ManagerProductImageSerializer
     permission_classes = (permissions.IsAuthenticated, )
 
