@@ -14,12 +14,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='inventoryset',
             name='category',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='manager.inventorycategory'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='manager.inventorycategory', null=True),
         ),
         migrations.AlterField(
             model_name='inventoryset',
             name='unique_id',
-            field=models.CharField(max_length=32, unique=True),
+            field=models.CharField(max_length=32, unique=True, null=True),
         ),
         migrations.AlterField(
             model_name='inventorysetitem',
