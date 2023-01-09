@@ -43,7 +43,7 @@ class InventoryTarifSerializer(serializers.ModelSerializer):
 class InventoryTarifBulkCreateItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = InventoryTarif
-        fields = ('id', 'name', 'default', 'price', 'product_set')
+        fields = ('id', 'name', 'default', 'price', 'product_set', 'time_period')
 
 
 class InventoryTarifBulkCreateSerializer(serializers.Serializer):

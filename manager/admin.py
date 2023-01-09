@@ -12,6 +12,7 @@ from manager.models.inventory.inventory_set import InventorySet, InventorySetIte
 from manager.models.inventory.inventory_status import InventoryStatus
 from manager.models.inventory.inventory_tarif import InventoryTarif
 from manager.models.interchangeable.interchangeable import Interchangeable
+from manager.models.inventory.inventory_tarif_time_period import InventoryTarifTimePeriod
 from manager.models.order.order import ManagerOrder
 from manager.models.order.order_inventory import ManagerOrderInventory
 from manager.models.order_request.request import OrderRequest
@@ -49,7 +50,8 @@ admin.site.register([
     InventorySchedule,
     InventoryPhoto,
     InventoryStatus,
-    InventoryCategory
+    InventoryCategory,
+    InventoryTarifTimePeriod
 ])
 
 # need to remove

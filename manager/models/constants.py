@@ -4,6 +4,7 @@ from manager.models.clients.client import ATTRACTION_METHOD, CLIENT_TYPE
 from manager.models.clients.client_tick import ClientTick
 from manager.models.inventory.inventory_category import InventoryCategory
 from manager.models.inventory.inventory_status import InventoryStatus
+from manager.models.inventory.inventory_tarif_time_period import InventoryTarifTimePeriod
 from manager.models.rental_point.rental_point import RentalPoint
 from product.models.category import CATEGORY_TYPE, Category
 from product.models.product import PRODUCT_TYPE
@@ -26,6 +27,7 @@ class ManagerContants(models.Model):
     APPLICATION_READY = False
     INVENTORY_TYPE = None
     INVENTORY_STATUS = None
+    TARIF_TIME_PERIODS = []
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
@@ -64,6 +66,10 @@ class ManagerContants(models.Model):
             'comment': obj.comment,
             'status': obj.status
         }, InventoryStatus.objects.all())
+        self.TARIF_TIME_PERIODS = map(lambda obj: {
+            'id': obj.id,
+            'time': obj.time,
+        }, InventoryTarifTimePeriod.objects.all())
         self.INVENTORY_STATUS = getTypeObject(InventoryStatusType.choices)
 
     class Meta:
