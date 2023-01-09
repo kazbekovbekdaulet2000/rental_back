@@ -32,7 +32,6 @@ class Client(AbstractModel):
     uuid = models.UUIDField(default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=512, null=False)
     type = models.PositiveIntegerField(choices=CLIENT_TYPE, default=0)
-    birth_date = models.DateField(null=False)
     attraction_method = models.CharField(max_length=255, choices=ATTRACTION_METHOD)
     comment = models.TextField(max_length=512, null=True)
     avatar = models.ImageField(null=True)

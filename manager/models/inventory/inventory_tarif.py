@@ -5,6 +5,7 @@ from auditlog.models import AuditlogHistoryField
 from manager.models.inventory.inventory import Inventory
 from manager.models.inventory.inventory_set import InventorySetItem
 from product.models.product import Product
+from django.utils.translation import gettext_lazy as _
 
 
 class InventoryTarif(AbstractModel):

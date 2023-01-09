@@ -11,6 +11,7 @@ class ClientPassportIndividual(AbstractModel):
     issue = models.CharField(max_length=255)
     issue_date = models.DateField()
     issue_date_end = models.DateField()
+    birth_date = models.DateField(null=True)
     history = AuditlogHistoryField()
 
     class Meta:  
