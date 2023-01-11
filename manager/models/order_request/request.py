@@ -2,6 +2,8 @@ from django.db import models
 from common.custom_model import AbstractModel
 from manager.constants import OrderRequestStatus
 from manager.models.clients.client import Client
+from auditlog.models import AuditlogHistoryField
+from auditlog.registry import auditlog
 
 
 class OrderRequest(AbstractModel):
@@ -16,5 +18,10 @@ class OrderRequest(AbstractModel):
     price = models.PositiveIntegerField(null=True)
     price_discount = models.PositiveIntegerField(null=True)
 
+    history = AuditlogHistoryField()
+
     class Meta:
         ordering = ('-created_at', )
+
+
+auditlog.register(OrderRequest)

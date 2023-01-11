@@ -21,44 +21,44 @@ from manager.models.order_request.request_service import OrderRequestService
 from manager.models.rental_point.rental_point import RentalPoint
 
 
-class InventoryTarifAdmin(admin.ModelAdmin):
-    list_display = ("id", "name", "inventory", "default")
-    list_filter = ("price", )
+# class InventoryTarifAdmin(admin.ModelAdmin):
+#     list_display = ("id", "name", "inventory", "default")
+#     list_filter = ("price", )
 
 
-admin.site.register(InventoryTarif, InventoryTarifAdmin)
+# admin.site.register(InventoryTarif, InventoryTarifAdmin)
 
 
-class InventoryAdmin(admin.ModelAdmin):
-    list_display = ("id", "buy_price")
+# class InventoryAdmin(admin.ModelAdmin):
+#     list_display = ("id", "buy_price")
 
 
-admin.site.register(Inventory, InventoryAdmin)
+# admin.site.register(Inventory, InventoryAdmin)
 
-admin.site.register([
-    Client,
-    ClientTick,
-    ClientDiscount,
-    ClientPassportIndividual,
-    ClientPassportLegal
-])
+# admin.site.register([
+#     Client,
+#     ClientTick,
+#     ClientDiscount,
+#     ClientPassportIndividual,
+#     ClientPassportLegal
+# ])
 
-admin.site.register([
-    Interchangeable,
-    InventorySet,
-    InventorySetItem,
-    InventorySchedule,
-    InventoryPhoto,
-    InventoryStatus,
-    InventoryCategory,
-    InventoryTarifTimePeriod
-])
+# admin.site.register([
+#     Interchangeable,
+#     InventorySet,
+#     InventorySetItem,
+#     InventorySchedule,
+#     InventoryPhoto,
+#     InventoryStatus,
+#     InventoryCategory,
+#     InventoryTarifTimePeriod
+# ])
 
-# need to remove
-admin.site.register([
-    ManagerOrder,
-    ManagerOrderInventory,
-])
+# # need to remove
+# admin.site.register([
+#     ManagerOrder,
+#     ManagerOrderInventory,
+# ])
 
 admin.site.register([
     OrderRequest,
@@ -66,4 +66,4 @@ admin.site.register([
     OrderRequestService
 ])
 
-admin.site.register([RentalPoint, ])
+# admin.site.register([RentalPoint, ])

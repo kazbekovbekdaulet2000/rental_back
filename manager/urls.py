@@ -12,7 +12,7 @@ from manager.views.inventory.inventory_status import InventoryStatusList
 from manager.views.inventory.inventory_tarif import InventoryTarifBulkCreate, InventoryTarifDetail, InventoryTarifList, InventoryTarifProducts
 from manager.views.object_history import LogEntryObjectHistory
 from manager.views.order_requests.requests import OrderRequestDetail, OrderRequestList
-from manager.views.product.product import ManagerProductDetail, ManagerProductsList
+from manager.views.product.product import ManagerProductDetail, ManagerProductRelatedList, ManagerProductsList
 from manager.views.product.product_image import ManagerProductImageBulkCreate, ManagerProductImageDelete, ManagerProductImageList
 from manager.views.product.product_set import ManagerProductSetBulkCreate, ManagerProductSetDetail, ManagerProductSetList
 from manager.views.interchangeables.product_parts import ManagerProductInterchangeableList, ManagerProductInterchangeableDetail
@@ -34,10 +34,11 @@ urlpatterns = [
     path('products/<int:product_id>/images/', ManagerProductImageList.as_view()),
     path('products/<int:product_id>/images/<int:id>/', ManagerProductImageDelete.as_view()),
     path('products/<int:product_id>/images/bulk_create/', ManagerProductImageBulkCreate.as_view()),
+    path('products/<int:product_id>/related_product/', ManagerProductRelatedList.as_view()),
     path('products/<int:id>/history/', LogEntryObjectHistory.as_view(model=Product, lookup_field='id')),
 
     # product interchangeables
-    path('products/<int:product_id>/parts/', ManagerProductInterchangeableList.as_view()), 
+    path('products/<int:product_id>/parts/', ManagerProductInterchangeableList.as_view()),
     path('products/<int:product_id>/parts/<int:id>/', ManagerProductInterchangeableDetail.as_view()), 
 
     # inventories

@@ -27,8 +27,9 @@ class InventoryTarifProducts(generics.ListAPIView):
 
     def get_queryset(self):
         inventory = self.get_object()
-        product_ids = inventory.product_parts.values_list(
-            'products', flat=True)
+        print(inventory.product_parts.all())
+        product_ids = inventory.product_parts.values_list('products__product', flat=True)
+        print(product_ids)
         return Product.objects.filter(id__in=product_ids)
 
 

@@ -24,7 +24,7 @@ class ManagerProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = ['name_ru', 'name_kk', 'order', 'articule', 'description_ru', 'description_kk',
                   'daily_price', 'tags', 'category', 'instruction_video', 'amount', 'active',
-                  'type', 'related_products_array', 'images', 'parts']
+                  'type', 'related_products_array', 'images']
 
 
 class ManagerProductDetailSerializer(serializers.ModelSerializer):
@@ -39,3 +39,11 @@ class ManagerProductCreateSerializer(serializers.ModelSerializer):
         fields = ['name_ru', 'name_kk', 'order', 'articule', 'description_ru', 'description_kk',
                   'daily_price', 'tags', 'category', 'instruction_video', 'amount', 'active',
                   'type', 'related_products_array']
+
+
+class ManagerProductUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ['name_ru', 'name_kk', 'order', 'articule', 'description_ru', 'description_kk',
+                  'daily_price', 'tags', 'category', 'instruction_video', 'amount', 'active',
+                  'type', 'related_products_array', 'slug']

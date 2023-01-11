@@ -4,6 +4,12 @@ from manager.serializers.inventory.inventory_image import InventoryPhotoSerializ
 from manager.serializers.inventory.inventory_tarif import InventoryTarifSerializer
 
 
+class BaseInventorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Inventory
+        fields =[ 'id', 'name','unique_id', 'status', 'category' ]
+
+
 class InventorySerializer(serializers.ModelSerializer):
     photos = InventoryPhotoSerializer(many=True)
     default_tarif = InventoryTarifSerializer(many=False)

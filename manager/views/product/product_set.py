@@ -9,7 +9,6 @@ from product.models.product_set import ProductSet
 
 
 class ManagerProductSetList(generics.ListAPIView):
-    queryset = None
     serializer_class = ManagerProductSetSerializer
     permission_classes = (permissions.IsAuthenticated, )
     pagination_class = None

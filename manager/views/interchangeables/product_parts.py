@@ -1,27 +1,23 @@
-from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework import permissions
-from manager.models.interchangeable.interchangeable import Interchangeable
-from manager.serializers.product_parts.product_parts import InterchangeableDetailSerializer, InterchangeableSerializer
-from product.models.product import Product
+from manager.serializers.inventory.product_part import ManagerProductPartSerializer
+from product.models.product_part import ProductPart
 
 
 class ManagerProductInterchangeableList(generics.ListCreateAPIView):
-    queryset = Interchangeable.objects.all()
-    serializer_class = InterchangeableSerializer
+    queryset = ProductPart.objects.all()
+    serializer_class = ManagerProductPartSerializer
     permission_classes = (permissions.IsAuthenticated, )
     pagination_class = None
 
     def get_queryset(self):
-        product = get_object_or_404(Product, id=self.kwargs['product_id'])
-        return product.parts
+        return ProductPart.objects.filter(product_id=self.kwargs['product_id'])
 
 
 class ManagerProductInterchangeableDetail(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = "id"
-    serializer_class = InterchangeableDetailSerializer
+    serializer_class = ManagerProductPartSerializer
     permission_classes = (permissions.IsAuthenticated, )
 
     def get_queryset(self):
-        product = get_object_or_404(Product, id=self.kwargs['product_id'])
-        return product.parts
+        return ProductPart.objects.filter(product_id=self.kwargs['product_id'])

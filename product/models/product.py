@@ -36,7 +36,6 @@ class Product(AbstractModel):
     type = models.PositiveIntegerField(default=0, choices=PRODUCT_TYPE)
     
     related_products_array = ArrayField(base_field=models.PositiveIntegerField(), null=True, blank=True)
-    parts = models.ManyToManyField(Interchangeable, related_name='products')
 
     history = AuditlogHistoryField()
 
